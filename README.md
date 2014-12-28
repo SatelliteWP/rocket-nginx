@@ -20,7 +20,7 @@ The configuration was created and is maintained by [Maxime Jobin](http://www.max
 ## <a name='before'>Before You Start</a>
 As the configuration's goal is to serve cached files directly without having to execute any PHP from WordPress, this may cause your scheduled jobs to not be called.  As you may already know, WP-Cron jobs are not real cron jobs and are executed only when you have visits on your site.
 
-In order to make sure your scheduled tasks are run when they should, it is strongly suggested to disable WordPress cron jobs and create a real cron job.
+In order to make sure your scheduled tasks run when they should, it is strongly suggested to disable WordPress cron jobs and create a real cron job.
 
 To disable WordPress cron job, add the following line to your `wp-config.php`:
 `define('DISABLE_WP_CRON', true);`
