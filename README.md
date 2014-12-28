@@ -26,10 +26,15 @@ To disable WordPress cron job, add the following line to your `wp-config.php`:
 `define('DISABLE_WP_CRON', true);`
 
 Then, manually a cron job every 15 minutes (it should be enough for most websites):
+
 `*/15 * * * * wget -q -O - http://www.website.com/wp-cron.php?doing_wp_cron >/dev/null 2>&1`
+
 or
+
 `*/15 * * * * curl http://www.website.com/wp-cron.php?doing_wp_cron > /dev/null 2>&1`
+
 or
+
 `*/15 * * * * cd /home/user/public_html; php wp-cron.php > /dev/null 2>&1`
 
 Make sure you test that your tasks still run after this change!
