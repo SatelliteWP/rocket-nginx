@@ -91,7 +91,7 @@ Reasons for not serving a cached file:
   * **Arguments found**: One or more argument was found in the request (e.g. ?page=2).
   * **Maintenance mode**: The .maintenance file was found. Therefore, let's WordPress handle what should be displayed.
   * **Cookie**: A specific cookie was found and tells to not serve the cached page (e.g. user is logged in, post with password).
-  * **File** not cached: No cached file was found for that request.
+  * **File not cached**: No cached file was found for that request.
 
 ## <a name='faq'>FAQ</a>
 No frequently asked questions... so far.
