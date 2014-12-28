@@ -1,7 +1,7 @@
 Rocket-Nginx
 ============
 
-Rocket-Nginx is a [Nginx](http://nginx.org) configuration for the [WordPress](http://wordpress.org) cache plugin [WP-Rocket](http://wp-rocket.me).
+Rocket-Nginx is a [Nginx](http://nginx.org) configuration for the [WordPress](http://wordpress.org) cache plugin [WP-Rocket](http://wp-rocket.me). It enables Nginx to serve directly previously cached files without calling WordPress or any PHP. It also adds headers to cache CSS, JS and images via browser cache.
 
 ## <a name='toc'>Table of Contents</a>
 
