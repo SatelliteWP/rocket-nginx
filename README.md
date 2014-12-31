@@ -70,7 +70,7 @@ That's it.
 ## <a name='configuration'>Configuration</a>
 There is no configuration to do.
 
-By default, files such as CSS, JS and images are cached for 30 days (`expires 30d;`). As of the latest Nginx stable version, it is not possible to set these values into variables. You can manually change the values if needed.
+By default, files such as CSS, JS and medias (images, fonts, ...) are cached until December 31st, 2037 (`expires max;`). As of the latest Nginx stable version, it is not possible to set these values into variables. You can manually change the values if needed.
 
 ## <a name='debug'>Debug</a>
 You may want to check if your files are served directly by Nginx and not calling any PHP. To do that, open the `rocket-nginx.conf` file and change the debug value from:
