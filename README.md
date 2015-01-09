@@ -55,7 +55,12 @@ Then, in your configuration file, you must [include](http://nginx.org/en/docs/ng
 
 ```
 server {
+  ...
+  
+  # Rocket-Nginx configuration
   include rocket-nginx/rocket-nginx.conf
+  
+  ...
 }
 ```
 
