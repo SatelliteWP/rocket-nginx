@@ -58,7 +58,7 @@ server {
   ...
   
   # Rocket-Nginx configuration
-  include rocket-nginx/rocket-nginx.conf
+  include rocket-nginx/rocket-nginx.conf;
   
   ...
 }
