@@ -100,7 +100,7 @@ Reasons for not serving a cached file:
 
 ## <a name='faq'>FAQ</a>
 
-**<a name='toc'>Do you have any benchmark about the project ?</a>**
+**<a name='faq_benchmark'>Do you have any benchmark about the project ?</a>**
 
 No. People love benchmark as much as they hate them. All benchmark have people claiming that X or Y or Z should have had another value to improve the outcome.  In this specific project, the benchmark would depend on how many plugins you have that are affecting the page (even if the output is in cache). What we can say though is that you will go from **NGINX &#8594; PHP-FPM &#8594; PHP &#8594; Static file** to **NGINX &#8594; Static file**. In other words you are serving the static file directly from NGINX instead of passing the request to FPM that will need to call PHP (from WP-Rocket... at least) before serving the static file.
 
