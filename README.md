@@ -86,9 +86,12 @@ To:
 
 `set $rocket_debug 1;`
 
-This will add the following headers to your response request:
+The following header is present no matter if debug is set to 0 or 1:
   * **X-Rocket-Nginx-Bypass**: Did the configuration served the cached file directly (did it bypass WordPress): Yes or No.
-  * **X-Rocket-Nginx-Reason**: If "No", what is the reason for calling WordPress.  If "Yes", what is the file used.
+
+This will add the following headers to your response request:
+  * **X-Rocket-Nginx-Reason**: If Bypass is set to "No", what is the reason for calling WordPress.  If "Yes", what is the file used (URL).
+  * **X-Rocket-Nginx-File**: If "Yes", what is the file used (path on disk).
 
 
 Reasons for not serving a cached file:
