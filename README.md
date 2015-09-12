@@ -41,7 +41,9 @@ Make sure you test that your tasks still run after this change!
 
 ## <a name='installation'>Installation</a>
 
-In order to use the script, you must include it in your actual configuration.  Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP-Rocket.
+In order to use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/maximejobin/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
+
+Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP-Rocket.
 
 You can create a folder `rocket-nginx` directory in your Nginx configuration directory. If you are using Ubuntu, your Nginx configuration (nginx.conf) should be found in: `/etc/nginx/`.
 
