@@ -81,7 +81,7 @@ There is no configuration to do.
 By default, files such as CSS, JS and medias (images, fonts, ...) are cached until December 31st, 2037 (`expires max;`). As of the latest Nginx stable version, it is not possible to set these values into variables. You can manually change the values if needed.
 
 #### HTTP Strict Transport Security (HSTS)
-By default, HSTS (HTTP Strict Transport Security) is enabled by default for all subdomains and the cache will expire after 1 year. If you want to overwrite the default value, you can simply insert your desired value between the quotes of the `$rocket_hsts_value` variable at the top of the `rocket-nginx.conf` file.
+By default, HSTS (see [HTTP Strict Transport Security](https://developer.mozilla.org/en-US/docs/Web/Security/HTTP_strict_transport_security)) is enabled by default for all subdomains and the cache will expire after 1 year. If you want to overwrite the default value, you can simply insert your desired value between the quotes of the `$rocket_hsts_value` variable at the top of the `rocket-nginx.conf` file.
 
 If you leave the variable as-is:
 
