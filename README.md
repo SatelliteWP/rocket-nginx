@@ -75,7 +75,7 @@ Once your test is done, you must reload your configuration.
 That's it.
 
 ## <a name='configuration'>Configuration</a>
-There is no configuration to do.
+There is no configuration to do.  It will work out of the box.  But, you can edit a couple of things...
 
 #### Cache expiration
 By default, files such as CSS, JS and medias (images, fonts, ...) are cached until December 31st, 2037 (`expires max;`). As of the latest Nginx stable version, it is not possible to set these values into variables. You can manually change the values if needed.
