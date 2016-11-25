@@ -136,4 +136,4 @@ No. People love benchmark as much as they hate them. All benchmarks have people 
 Yes! Rocket-Nginx will detect if the request was made through HTTP or HTTPS and serve the right file depending on the request type.  Both protocols are handled automagically since version 1.0.
 
 ## <a name='license'>License</a>
-Released under the [GPL](http://www.gnu.org/licenses/gpl.html). See the link for details.
+Released under the MIT License. See the license file for details.
