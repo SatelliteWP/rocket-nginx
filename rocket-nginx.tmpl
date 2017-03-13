@@ -15,7 +15,7 @@
 ###################################################################################################
 
 # Add debug information into header
-set $rocket_debug 0;
+set $rocket_debug #!# DEBUG #!#;
 
 # HTTP Strict Transport Security (to overwrite default)
 set $rocket_hsts_value "";
@@ -89,7 +89,7 @@ if (-f "$document_root/.maintenance") {
 # Do not bypass if one of those cookie if found
 # wordpress_logged_in_[hash] : When a user is logged in, this cookie is created (we'd rather let WP-Rocket handle that)
 # wp-postpass_[hash] : When a protected post requires a password, this cookie is created.
-if ($http_cookie ~* "(wordpress_logged_in_|wp\-postpass_|woocommerce_items_in_cart|woocommerce_cart_hash|wptouch_switch_toogle|comment_author_|comment_author_email_)") {
+if ($http_cookie ~* "(#!# COOKIE_INVALIDATE #!#)") {
 	set $rocket_bypass 0;
 	set $rocket_reason "Cookie";
 }
@@ -189,7 +189,7 @@ location ~* \.js$ {
 ###################################################################################################
 # BROWSER MEDIA CACHE
 #
-location ~* \.(ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg)$ {
+location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
 	etag on;
 	expires 30d;
 	
