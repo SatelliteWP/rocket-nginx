@@ -26,7 +26,7 @@ set $rocket_hsts_value "";
 set $rocket_bypass 1;				# Should NGINX bypass WordPress and call cache file directly ?
 set $rocket_encryption "";			# Is GZIP accepted by client ?
 set $rocket_file "";				# Filename to use
-set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Bypass
+set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
 set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
 set $rocket_hsts 0;					# Is HSTS is off (0) by default. Will be turned on (1) if request is HTTPS
@@ -127,7 +127,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	etag on;
 	add_header Vary "Accept-Encoding, Cookie";
 	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Bypass $rocket_is_bypassed;
+	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
@@ -144,7 +144,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	add_header Content-Encoding gzip;
 	add_header Vary "Accept-Encoding, Cookie";
 	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Bypass $rocket_is_bypassed;
+	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
@@ -153,7 +153,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 }
 
 # Debug header (when file is not cached)
-add_header X-Rocket-Nginx-Bypass $rocket_is_bypassed;
+add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 add_header X-Rocket-Nginx-Reason $rocket_reason;
 add_header X-Rocket-Nginx-File $rocket_file;
 
