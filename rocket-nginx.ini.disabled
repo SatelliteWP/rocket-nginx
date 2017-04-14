@@ -1,10 +1,14 @@
 ; Rocket-Nginx configuration file
+; Author: Maxime Jobin
+; URL: https://github.com/maximejobin/rocket-nginx
+; Version: 2.0
 
 ; Default configuration
 [default]
 
 ; Enable debug information
 ; This adds debug headers to help understand what is going on when a problem occurs with the configuration
+; Expected values: true, false
 ; Default value: false
 debug = false
 
@@ -12,32 +16,44 @@ debug = false
 ; Default value: wp-content
 wp_content_folder = wp-content
 
+; HTML Cache-Control
+; Cache control header to use for html files
+html_cache_control = "no-cache, no-store, must-revalidate"
+
 ; Cookies
 ; Cookies can be specified to avoid serving a cached file. Some plugins may need to bypass the use of a
 ; file that was previously cached. List all cookies that must invalidate the use of cache.
-; The cookie must contain the text.
-; Example: cookie_invalidate[] = wordpress_logged_in_
-cookie_invalidate[] = wordpress_logged_in_
-cookie_invalidate[] = wp-postpass_
-cookie_invalidate[] = woocommerce_items_in_cart
-cookie_invalidate[] = woocommerce_cart_hash
-cookie_invalidate[] = wptouch_switch_toogle
-cookie_invalidate[] = comment_author_
-cookie_invalidate[] = comment_author_email_
+; The cookie name must contain the text value set.
+; Note that each value will be used in a REGEX. Make sure characters are escaped when needed.
+; Example: cookie_invalidate[] = "wordpress_logged_in_"
+cookie_invalidate[] = "wordpress_logged_in_"
+cookie_invalidate[] = "wp\-postpass_"
+cookie_invalidate[] = "woocommerce_items_in_cart"
+cookie_invalidate[] = "woocommerce_cart_hash"
+cookie_invalidate[] = "wptouch_switch_toogle"
+cookie_invalidate[] = "comment_author_"
+cookie_invalidate[] = "comment_author_email_"
 
 ; HTTP(S) headers
 ; Custom headers can be added to the HTTP(S) requests for cached files (pages, posts, custom post types, 
 ; etc). Brackets must be added at the end of the http_header variable name.  That way, multiple headers
 ; can be added.
 ; Format: name "value"
-; Example: http_header[] = My-Domain "www.mydomain.com"
+; Example: http_header[My-Domain] = "mydomain.com"
 
 ; HTTP(S) gzipped headers
-; Custom headers can be added to the gzipped requests for cached files (pages, posts, custom post types, 
+; Custom headers can be added to the requests that serve already gzipped cached files (pages, posts, custom 
+; post types,etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple 
+; headers can be added.
+; Format: name "value"
+; Example: gzip_header[Is-Already-Gzipped] = "Yes"
+
+; HTTP(S) non gzipped headers
+; Custom headers can be added to the requests that serve cached files (pages, posts, custom post types, 
 ; etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple headers
 ; can be added.
 ; Format: name "value"
-; Example: gzip_header[] = Is-Compressed "Yes"
+; Example: gzip_header[Is-Compressed] = "Yes"
 
 ; HTTP Strict Transport Security (HSTS)
 ; HTTP Strict Transport Security (HSTS) is an opt-in security enhancement that is specified by a web 
@@ -49,42 +65,40 @@ cookie_invalidate[] = comment_author_email_
 
 ; HSTS header value
 ; Default value: max-age=31536000; includeSubDomains
-header_hsts = max-age=31536000; includeSubDomains
+header_hsts = "max-age=31536000; includeSubDomains"
 
 ; CSS headers
 ; Custom headers can be added to the CSS requests.
 ; Brackets must be added at the end of the css_header variable name.  That way, multiple headers
 ; can be added.
 ; Format: name "value"
-; Example: css_header[] = Is-CSS "Yes"
+; Example: css_header[Is-CSS] = "Yes"
 
 ; JavaScript headers
 ; Custom headers can be added to the javascript requests.
 ; Brackets must be added at the end of the js_header variable name.  That way, multiple headers
 ; can be added.
-; Format: name "value"
-; Example: js_header[] = Is-JavaScript "Yes"
+; Example: js_header[Is-JavaScript] = "Yes"
 
 ; Medias extensions
 ; Medias extensions for images, icons, fonts and other cachable medias. All extensions are separated
 ; by pipes (|).
 ; Default value: ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg
-media_extensions = ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg
+media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg"
 
 ; Medias headers
 ; Custom headers can be added to the medias requests for 
 ; etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple headers
 ; can be added.
-; Format: name "value"
-; Example: media_header[] = Is-Media "Yes"
+; Example: media_header[Is-Media] = "Yes"
 
 
-; Multiple sections can be created for multiple websites with different configurations
-; It is recommeneded to use the default value as a base for custom validations. A new configuration
+; Multiple sections can be created for multiple websites with different configurations.
+; It is recommended to use the default values as a base for custom validations. A new configuration
 ; file will be created for each new section created.
 
 ; In the following example, the 'default' configuration is used and added a custom media_header.
 ;[example.com : default]
-;media_header[] = Is-Media "Yes"
+;media_header[Is-NewSection] = "Yes"
 
 
