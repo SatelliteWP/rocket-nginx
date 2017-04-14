@@ -7,8 +7,8 @@
 # Author: Maxime Jobin
 # URL: https://github.com/maximejobin/rocket-nginx
 #
-# Tested with WP-Rocket version: 2.8.23
-# Tested with NGINX: 1.11.6 (mainline)
+# Tested with WP-Rocket version: 2.9.11
+# Tested with NGINX: 1.11.13 (mainline)
 #
 # Version 2.0
 #
@@ -126,13 +126,11 @@ if ($rocket_bypass = 1) {
 location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	etag on;
 	add_header Vary "Accept-Encoding, Cookie";
-	add_header Cache-Control "no-cache";
+	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
 	add_header X-Rocket-Nginx-Bypass $rocket_is_bypassed;
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
-	
-	
 	#!# HEADER_HTTP #!#
 	#!# HEADER_NON_GZIP #!#
 }
@@ -145,11 +143,11 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	default_type text/html;
 	add_header Content-Encoding gzip;
 	add_header Vary "Accept-Encoding, Cookie";
+	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
 	add_header X-Rocket-Nginx-Bypass $rocket_is_bypassed;
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
-	
 	#!# HEADER_HTTP #!#
 	#!# HEADER_GZIP #!#
 }
@@ -169,7 +167,6 @@ location ~* \.css$ {
 	etag on;
 	gzip_vary on;
 	expires 30d;
-	
 	#!# HEADER_CSS #!#
 }
 
@@ -181,7 +178,6 @@ location ~* \.js$ {
 	etag on;
 	gzip_vary on;
 	expires 30d;
-	
 	#!# HEADER_JS #!#
 }
 
@@ -192,6 +188,5 @@ location ~* \.js$ {
 location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
 	etag on;
 	expires 30d;
-	
 	#!# HEADER_MEDIAS #!#
 }
