@@ -74,6 +74,13 @@ class RocketParser {
       }
       $output = str_replace('#!# WP_CONTENT_URI #!#', $wp_content_folder, $output);
 
+      // Cache Control
+      $html_cache_control = '';
+      if (isset($section['html_cache_control']) && !empty($section['html_cache_control'])) {
+        $html_cache_control = $section['html_cache_control'];
+      }
+      $output = str_replace('#!# HTML_CACHE_CONTROL #!#', $html_cache_control, $output);
+
       // Cookies
       $cookies = '';
       if (isset($section['cookie_invalidate']) && is_array($section['cookie_invalidate'])) {
@@ -194,8 +201,6 @@ class RocketParser {
 
     $data = $this->parseIniFile();
 
-    var_dump($data);
-
     $this->generateConfigurationFiles($data);
   }
 }
@@ -203,7 +208,8 @@ class RocketParser {
 // If file is included, we assume it will call the class automatically.
 // Otherwise, let's generate the configuration files.
 $includedFiles = count(get_included_files());
-if ($includedFiles == 0) {
+
+if ($includedFiles === 1) {
   $rp = new RocketParser();
   $rp->go();  
 }
