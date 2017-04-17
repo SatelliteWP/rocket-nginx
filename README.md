@@ -43,7 +43,7 @@ Make sure you test that your tasks still run after this change!
 
 In order to use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/maximejobin/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
 
-Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP-Rocket.
+Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP-Rocket. That said, you can generate as many configuration files as needed.
 
 You can create a folder `rocket-nginx` directory in your Nginx configuration directory. If you are using Ubuntu, your Nginx configuration (nginx.conf) should be found in: `/etc/nginx/`.
 
@@ -53,6 +53,14 @@ To install, you can:
   git clone https://github.com/maximejobin/rocket-nginx.git
   ```
 
+Since version 2.0, the configuration must be generated. To generate the default configuration, you must rename the disabled ini file and run the configuration parser:
+```
+cd rocket-nginx
+mv rocket-nginx.ini.disabled rocket-nginx.ini
+php rocket-parser.php
+```
+This will generate the `default.conf` configuration that can be included for all websites.  If you need to alter the default configuration, you can edit the ini file and add another section at the bottom of the file.
+
 Then, in your configuration file, you must [include](http://nginx.org/en/docs/ngx_core_module.html#include) the configuration. If your websites configurations are in `/etc/nginx/sites-available`, you need to alter your configuration:
 
 ```
@@ -60,7 +68,7 @@ server {
   ...
   
   # Rocket-Nginx configuration
-  include rocket-nginx/rocket-nginx.conf;
+  include rocket-nginx/default.conf;
   
   ...
 }
@@ -77,27 +85,7 @@ That's it.
 ## <a name='configuration'>Configuration</a>
 There is no configuration to do.  It will work out of the box.  But, you can edit a couple of things...
 
-#### Cache expiration
-By default, files such as CSS, JS and medias (images, fonts, ...) are cached until December 31st, 2037 (`expires max;`). As of the latest Nginx stable version, it is not possible to set these values into variables. You can manually change the values if needed.
-
-#### HTTP Strict Transport Security (HSTS)
-By default, HSTS (see [HTTP Strict Transport Security](https://developer.mozilla.org/en-US/docs/Web/Security/HTTP_strict_transport_security)) is enabled by default for all subdomains and the cache will expire after 1 year. If you want to overwrite the default value, you can simply insert your desired value between the quotes of the `$rocket_hsts_value` variable at the top of the `rocket-nginx.conf` file.
-
-If you leave the variable as-is:
-
-    set $rocket_hsts_value "";
-
-Rocket-Nginx will display the default HSTS header:
-
-    Strict-Transport-Security: max-age=16070400; includeSubDomains
-
-If you change the variable value with another value:
-
-    set $rocket_hsts_value "my-value-here";
-
-Rocket-Nginx will display the following HSTS header:
-
-    Strict-Transport-Security: my-value-here
+Just open the `rocket-nginx.ini` file and see all the options in it.
     
 
 ## <a name='debug'>Debug</a>
