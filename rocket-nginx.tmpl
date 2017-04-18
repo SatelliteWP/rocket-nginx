@@ -16,7 +16,8 @@
 
 # Add debug information into header
 set $rocket_debug #!# DEBUG #!#;
-
+# Add security headers
+set $rocket_security 1;
 
 ###################################################################################################
 # Do not alter theses values
@@ -126,6 +127,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	add_header Strict-Transport-Security "$rocket_hsts_value";
 	#!# HEADER_HTTP #!#
 	#!# HEADER_NON_GZIP #!#
+	if ($rocket_security = 1) {
 	###SECURITY
 	
 	# config to don't allow the browser to render the page inside an frame or iframe
@@ -147,6 +149,8 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	# this particular website if it was disabled by the user.
 	# https://www.owasp.org/index.php/List_of_useful_HTTP_headers
 	add_header X-XSS-Protection "1; mode=block";
+	}
+
 }
 
 # Do not gzip cached files that are already gzipped
@@ -164,6 +168,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	add_header Strict-Transport-Security "$rocket_hsts_value";
 	#!# HEADER_HTTP #!#
 	#!# HEADER_GZIP #!#
+	if ($rocket_security = 1) {
 	###SECURITY
 	
 	# config to don't allow the browser to render the page inside an frame or iframe
@@ -185,6 +190,8 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	# this particular website if it was disabled by the user.
 	# https://www.owasp.org/index.php/List_of_useful_HTTP_headers
 	add_header X-XSS-Protection "1; mode=block";
+	}
+
 }
 
 # Debug header (when file is not cached)
