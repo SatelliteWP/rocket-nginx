@@ -86,6 +86,16 @@ That's it.
 There is no configuration to do.  It will work out of the box.  But, you can edit a couple of things...
 
 Just open the `rocket-nginx.ini` file and see all the options in it.
+
+You can add a new section based on the default configuration like this:
+```
+# This creates the new section and will generate a new configuration
+[example.com : default]
+
+# This will add a new header named "Is-NewSection" with the value "Yes" to the medias section
+media_header[Is-NewSection] = "Yes"
+```
+
     
 
 ## <a name='debug'>Debug</a>
