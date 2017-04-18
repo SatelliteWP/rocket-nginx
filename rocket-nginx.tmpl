@@ -17,8 +17,6 @@
 # Add debug information into header
 set $rocket_debug #!# DEBUG #!#;
 
-# HTTP Strict Transport Security (to overwrite default)
-set $rocket_hsts_value "";
 
 ###################################################################################################
 # Do not alter theses values
@@ -31,8 +29,8 @@ set $rocket_reason "";				# Reason why cache file was not used. If cache file is
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
 set $rocket_hsts 0;					# Is HSTS is off (0) by default. Will be turned on (1) if request is HTTPS
 
-# HSTS Default value : 1 year, include subdomains.
-set $rocket_hsts_value_default "max-age=31536000; includeSubDomains";
+# HSTS value
+set $rocket_hsts_value "#!# HEADER_HSTS #!#";
 
 ###################################################################################################
 # PAGE CACHE
@@ -47,11 +45,6 @@ if ($http_accept_encoding ~ gzip) {
 if ($https = "on") {
 	set $rocket_https_prefix "-https";
 	set $rocket_hsts 1;
-}
-
-# If HSTS value is not set, use default value
-if ($rocket_hsts_value = "") {
-	set $rocket_hsts_value "$rocket_hsts_value_default";
 }
 
 # If HSTS is disabled, unset HSTS set for Rocket-Nginx configuration

@@ -81,6 +81,13 @@ class RocketParser {
       }
       $output = str_replace('#!# HTML_CACHE_CONTROL #!#', $html_cache_control, $output);
 
+      // HSTS
+      $header_hsts = '';
+      if (isset($section['header_hsts']) && !empty($section['header_hsts'])) {
+        $header_hsts = $section['header_hsts'];
+      }
+      $output = str_replace('#!# HEADER_HSTS #!#', $header_hsts, $output);
+
       // Cookies
       $cookies = '';
       if (isset($section['cookie_invalidate']) && is_array($section['cookie_invalidate'])) {
