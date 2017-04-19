@@ -56,7 +56,7 @@ To install, you can:
 Since version 2.0, the configuration must be generated. To generate the default configuration, you must rename the disabled ini file and run the configuration parser:
 ```
 cd rocket-nginx
-mv rocket-nginx.ini.disabled rocket-nginx.ini
+cp rocket-nginx.ini.disabled rocket-nginx.ini
 php rocket-parser.php
 ```
 This will generate the `default.conf` configuration that can be included for all websites.  If you need to alter the default configuration, you can edit the ini file and add another section at the bottom of the file.
