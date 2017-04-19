@@ -96,7 +96,14 @@ You can add a new section based on the default configuration like this:
 media_header[Is-NewSection] = "Yes"
 ```
 
-    
+Once you edit the ini file, you must regenerate your Nginx configuration file by running the parser:
+
+```
+php rocket-parser.php
+```
+
+Then, newly added or modified sections will generate update configuration file (*.conf).
+
 
 ## <a name='debug'>Debug</a>
 You may want to check if your files are served directly by Nginx and not calling any PHP. To do that, open the `rocket-nginx.conf` file and change the debug value from:
