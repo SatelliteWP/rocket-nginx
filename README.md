@@ -56,7 +56,7 @@ To install, you can:
 Since version 2.0, the configuration must be generated. To generate the default configuration, you must rename the disabled ini file and run the configuration parser:
 ```
 cd rocket-nginx
-mv rocket-nginx.ini.disabled rocket-nginx.ini
+cp rocket-nginx.ini.disabled rocket-nginx.ini
 php rocket-parser.php
 ```
 This will generate the `default.conf` configuration that can be included for all websites.  If you need to alter the default configuration, you can edit the ini file and add another section at the bottom of the file.
@@ -96,7 +96,14 @@ You can add a new section based on the default configuration like this:
 media_header[Is-NewSection] = "Yes"
 ```
 
-    
+Once you edit the ini file, you must regenerate your Nginx configuration file by running the parser:
+
+```
+php rocket-parser.php
+```
+
+Then, newly added or modified sections will generate update configuration file (*.conf).
+
 
 ## <a name='debug'>Debug</a>
 You may want to check if your files are served directly by Nginx and not calling any PHP. To do that, open the `rocket-nginx.conf` file and change the debug value from:
