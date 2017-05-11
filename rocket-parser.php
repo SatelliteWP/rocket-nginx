@@ -8,7 +8,7 @@
 * Author: Maxime Jobin
 * URL: https://github.com/maximejobin/rocket-nginx
 *
-* Version 2.0
+* Version 2.0.1
 *
 **************************************************************************************************/
 
@@ -146,9 +146,20 @@ class RocketParser {
       
 
       // Output the file
-      file_put_contents($name . ".conf", $output);
-    }
+      $filename = $name . ".conf";
 
+      if (!$handle = fopen($filename, 'w')) {
+        echo "Cannot open file: {$filename}.\n";
+        continue;
+      }
+
+      if (fwrite($handle, $output) === FALSE) {
+        echo "Cannot write to file {$filename}.\n";
+        continue;
+      }
+
+      fclose($handle);
+    }
   }
 
   /**
@@ -217,8 +228,10 @@ class RocketParser {
 $includedFiles = count(get_included_files());
 
 if ($includedFiles === 1) {
+  error_reporting(-1);
+
   $rp = new RocketParser();
-  $rp->go();  
+  $rp->go();
 }
 
 
