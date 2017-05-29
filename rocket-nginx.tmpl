@@ -124,6 +124,11 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
+	add_header Content-Security-Policy "default-src https: data: 'unsafe-eval' 'unsafe-inline'" always;
+        add_header X-Frame-Options SAMEORIGIN;
+        add_header X-Content-Type-Options nosniff;
+        add_header X-XSS-Protection "1; mode=block";
+
 	#!# HEADER_HTTP #!#
 	#!# HEADER_NON_GZIP #!#
 }
@@ -141,6 +146,10 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
+	add_header Content-Security-Policy "default-src https: data: 'unsafe-eval' 'unsafe-inline'" always;
+        add_header X-Frame-Options SAMEORIGIN;
+        add_header X-Content-Type-Options nosniff;
+        add_header X-XSS-Protection "1; mode=block";
 	#!# HEADER_HTTP #!#
 	#!# HEADER_GZIP #!#
 }
