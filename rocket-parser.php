@@ -13,10 +13,10 @@
 **************************************************************************************************/
 
 class RocketParser {
-  
+
   public $configFile = 'rocket-nginx.ini';
   public $templateFile = 'rocket-nginx.tmpl';
-  
+
   /**
    * Parse the ini configuration file
    */
@@ -28,12 +28,12 @@ class RocketParser {
       $parts = explode(':', $namespace);
       $name = trim($parts[0]);
       $extends = isset($parts[1]) ? trim($parts[1]) : null;
-      
+
       // create namespace if necessary
       if(!isset($config[$name])) {
         $config[$name] = array();
       }
-      
+
       // inherit base namespace
       if(isset($data[$extends])) {
         foreach($data[$extends] as $prop => $val) {
@@ -48,12 +48,12 @@ class RocketParser {
 
     return $config;
   }
-  
+
   /**
    * Generate all configuration files
    */
   protected function generateConfigurationFiles($config) {
-    
+
     // Load template
     $template = $this->getTemplate();
 
@@ -101,7 +101,7 @@ class RocketParser {
         $header_http = $this->getGeneratedHeaders($section['http_header']);
       }
       $output = str_replace('#!# HEADER_HTTP #!#', $header_http, $output);
-      
+
       // GZIP headers
       $gzip_header = '';
       if (isset($section['gzip_header']) && is_array($section['gzip_header'])) {
@@ -138,12 +138,12 @@ class RocketParser {
       $output = str_replace('#!# HEADER_MEDIAS #!#', $medias_header, $output);
 
       // Media extensions
-      $medias_extension = '';
-      if (isset($section['medias_extension']) && is_array($section['medias_extension'])) {
-        $medias_extension = $this->getGeneratedHeaders($section['medias_extension']);
+      $media_extensions = '';
+      if (isset($section['media_extensions']) && is_array($section['media_extensions'])) {
+        $media_extensions = $this->getGeneratedHeaders($section['media_extensions']);
       }
-      $output = str_replace('#!# EXTENSION_MEDIAS #!#', $medias_extension, $output);
-      
+      $output = str_replace('#!# EXTENSION_MEDIAS #!#', $media_extensions, $output);
+
 
       // Output the file
       $filename = $name . ".conf";
@@ -208,7 +208,7 @@ class RocketParser {
     if (file_exists($this->configFile) === false) {
       die("Error: the file 'rocket-nginx.ini' could not be found to generate the configuration. " .
         "You must rename the orginal 'rocket-nginx.ini.disabled' file to 'rocket-nginx.ini' and run this script again.");
-    }    
+    }
   }
 
   /**
@@ -233,7 +233,3 @@ if ($includedFiles === 1) {
   $rp = new RocketParser();
   $rp->go();
 }
-
-
-
-
