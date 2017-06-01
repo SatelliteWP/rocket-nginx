@@ -104,15 +104,25 @@ php rocket-parser.php
 
 Then, newly added or modified sections will generate update configuration file (*.conf).
 
+Finally, **each time** you generate (or regenerate) the configurations files, you have to:
+
+1. Test it to make sure it did not produce any error:
+
+    `nginx -t`
+    
+1. Reload the configuration:
+
+    `service nginx reload`
+
 
 ## <a name='debug'>Debug</a>
-You may want to check if your files are served directly by Nginx and not calling any PHP. To do that, open the `rocket-nginx.conf` file and change the debug value from:
+You may want to check if your files are served directly by Nginx and not calling any PHP. To do that, open the `rocket-nginx.ini` file and change the debug value from:
 
-`set $rocket_debug 0;`
+`debug = false`
 
 To:
 
-`set $rocket_debug 1;`
+`debug = true`
 
 The following header is present no matter if debug is set to 0 or 1:
   * **X-Rocket-Nginx-Serving-Static**: Did the configuration served the cached file directly (did it bypass WordPress): Yes or No.
