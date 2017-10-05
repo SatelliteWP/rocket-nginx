@@ -10,7 +10,7 @@
 # Tested with WP-Rocket version: 2.9.11
 # Tested with NGINX: 1.11.13 (mainline)
 #
-# Version 2.0
+# Version 2.1
 #
 ###################################################################################################
 
@@ -39,6 +39,11 @@ set $rocket_hsts_value "#!# HEADER_HSTS #!#";
 # Is GZIP accepted by client ?
 if ($http_accept_encoding ~ gzip) {
 	set $rocket_encryption "_gzip";
+}
+
+# Is Brotli accepted by client ?
+if ($http_accept_encoding ~ br) {
+	set $rocket_encryption "";
 }
 
 # Is SSL request ?
