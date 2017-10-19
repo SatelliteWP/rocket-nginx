@@ -8,7 +8,7 @@
 * Author: Maxime Jobin
 * URL: https://github.com/maximejobin/rocket-nginx
 *
-* Version 2.0.1
+* Version 2.1
 *
 **************************************************************************************************/
 
