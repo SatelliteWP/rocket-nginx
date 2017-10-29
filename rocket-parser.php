@@ -8,7 +8,7 @@
 * Author: Maxime Jobin
 * URL: https://github.com/maximejobin/rocket-nginx
 *
-* Version 2.1
+* Version 2.1.1
 *
 **************************************************************************************************/
 
@@ -138,11 +138,11 @@ class RocketParser {
       $output = str_replace('#!# HEADER_MEDIAS #!#', $medias_header, $output);
 
       // Media extensions
-      $medias_extension = '';
-      if (isset($section['medias_extension']) && is_array($section['medias_extension'])) {
-        $medias_extension = $this->getGeneratedHeaders($section['medias_extension']);
+      $media_extensions = '';
+      if (isset($section['media_extensions']) && !empty($section['media_extensions'])) {
+        $media_extensions = $section['media_extensions'];
       }
-      $output = str_replace('#!# EXTENSION_MEDIAS #!#', $medias_extension, $output);
+      $output = str_replace('#!# EXTENSION_MEDIAS #!#', $media_extensions, $output);
       
 
       // Output the file
@@ -218,7 +218,6 @@ class RocketParser {
     $this->checkConfigurationFile();
 
     $data = $this->parseIniFile();
-
     $this->generateConfigurationFiles($data);
   }
 }
