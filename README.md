@@ -3,6 +3,10 @@ Rocket-Nginx
 
 Rocket-Nginx is a [Nginx](http://nginx.org) configuration for the [WordPress](http://wordpress.org) cache plugin [WP-Rocket](http://wp-rocket.me). It enables Nginx to serve directly previously cached files without calling WordPress or any PHP. It also adds headers to cache CSS, JS and medias in order to leverage browser's cache by reducing request to your web server.
 
+This project is sponsored by SatelliteWP, a [WordPress maintenance service](https://www.satellitewp.com/en) located near Montreal, Canada. Their service is offered in both English and French. SatelliteWP fait de l'[entretien de sites WordPress](https://www.satellitewp.com).
+
+![SatelliteWP - WordPress Maintenance](https://cdn.satellitewp.com/wp-content/uploads/2017/03/logo-dark.png)
+
 ## <a name='toc'>Table of Contents</a>
 
   1. [Contributors](#contributors)
@@ -15,7 +19,7 @@ Rocket-Nginx is a [Nginx](http://nginx.org) configuration for the [WordPress](ht
 
 ## <a name='contributors'>Contributors</a>
 
-The configuration was created and is maintained by [Maxime Jobin](http://www.maximejobin.com) ([@maximejobin](http://twitter.com/maximejobin)).
+The configuration was created and is maintained by [Maxime Jobin](http://www.maximejobin.com) ([@maximejobin](http://twitter.com/maximejobin)). 
 
 ## <a name='before'>Before You Start</a>
 As the configuration's goal is to serve cached files directly without having to execute any PHP from WordPress, this may cause your scheduled jobs to not be called.  As you may already know, WP-Cron jobs are not real cron jobs and are executed only when you have visits on your site.
