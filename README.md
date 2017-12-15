@@ -1,7 +1,7 @@
 Rocket-Nginx
 ============
 
-Rocket-Nginx is a [Nginx](http://nginx.org) configuration for the [WordPress](http://wordpress.org) cache plugin [WP-Rocket](http://wp-rocket.me). It enables Nginx to serve directly previously cached files without calling WordPress or any PHP. It also adds headers to cache CSS, JS and medias in order to leverage browser's cache by reducing request to your web server.
+Rocket-Nginx is a [Nginx](https://nginx.org) configuration for the [WordPress](https://wordpress.org) cache plugin [WP-Rocket](https://wp-rocket.me). It enables Nginx to serve directly previously cached files without calling WordPress or any PHP. It also adds headers to cache CSS, JS and medias in order to leverage browser's cache by reducing request to your web server.
 
 This project is sponsored by SatelliteWP, a [WordPress maintenance service](https://www.satellitewp.com/en) located near Montreal, Canada. Their service is offered in both English and French. SatelliteWP fait de l'[entretien de sites WordPress](https://www.satellitewp.com).
 
@@ -19,7 +19,7 @@ This project is sponsored by SatelliteWP, a [WordPress maintenance service](http
 
 ## <a name='contributors'>Contributors</a>
 
-The configuration was created and is maintained by [Maxime Jobin](http://www.maximejobin.com) ([@maximejobin](http://twitter.com/maximejobin)). 
+The configuration was created and is maintained by [Maxime Jobin](https://www.maximejobin.com) ([@maximejobin](https://twitter.com/maximejobin)). 
 
 ## <a name='before'>Before You Start</a>
 As the configuration's goal is to serve cached files directly without having to execute any PHP from WordPress, this may cause your scheduled jobs to not be called.  As you may already know, WP-Cron jobs are not real cron jobs and are executed only when you have visits on your site.
@@ -31,15 +31,15 @@ To disable WordPress cron job, add the following line to your `wp-config.php`:
 
 Then, manually a cron job every 15 minutes (it should be enough for most websites):
 
-`*/15 * * * * wget -q -O - http://www.website.com/wp-cron.php?doing_wp_cron >/dev/null 2>&1`
+`*/15 * * * * wget -q -O - http://www.website.com/wp-cron.php?doing_wp_cron &>/dev/null`
 
 or
 
-`*/15 * * * * curl http://www.website.com/wp-cron.php?doing_wp_cron > /dev/null 2>&1`
+`*/15 * * * * curl http://www.website.com/wp-cron.php?doing_wp_cron &>/dev/null`
 
 or
 
-`*/15 * * * * cd /home/user/public_html; php wp-cron.php > /dev/null 2>&1`
+`*/15 * * * * cd /home/user/public_html; php wp-cron.php &>/dev/null`
 
 Make sure you test that your tasks still run after this change!
 
@@ -65,7 +65,7 @@ php rocket-parser.php
 ```
 This will generate the `default.conf` configuration that can be included for all websites.  If you need to alter the default configuration, you can edit the ini file and add another section at the bottom of the file.
 
-Then, in your configuration file, you must [include](http://nginx.org/en/docs/ngx_core_module.html#include) the configuration. If your websites configurations are in `/etc/nginx/sites-available`, you need to alter your configuration:
+Then, in your configuration file, you must [include](https://nginx.org/en/docs/ngx_core_module.html#include) the configuration. If your websites configurations are in `/etc/nginx/sites-available`, you need to alter your configuration:
 
 ```
 server {
