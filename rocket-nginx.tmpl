@@ -57,13 +57,46 @@ if ($rocket_hsts = "0") {
 	set $rocket_hsts_value "";
 }
 
+# Dublicate nginx variables
+set $r_request_uri $request_uri;
+set $r_is_args 0;
+
+# Source: https://gist.github.com/a-vasyliev/de8ffc6c6aa74cdeadfe
+# here I remove utm_source, utm_content, utm_term, utm_campaign, utm_medium query parameters
+if ($r_request_uri ~ (.*)(?:&|\?)utm_source=[^&]*(.*)) {
+	set $r_request_uri $1$2;
+}
+
+if ($r_request_uri ~ (.*)(?:&|\?)utm_term=[^&]*(.*)) {
+	set $r_request_uri $1$2;
+}
+
+if ($r_request_uri ~ (.*)(?:&|\?)utm_campaign=[^&]*(.*)) {
+	set $r_request_uri $1$2;
+}
+
+if ($r_request_uri ~ (.*)(?:&|\?)utm_medium=[^&]*(.*)) {
+	set $r_request_uri $1$2;
+}
+
+if ($r_request_uri ~ (.*)(?:&|\?)utm_content=[^&]*(.*)) {
+	set $r_request_uri $1$2;
+}
+
+# Check if there is any argument with ? or & left
+if ($r_request_uri ~ (.*)(?:&|\?)(.*)) {
+	set $r_is_args 1;
+}
+
+# finally we have stripped out utms and has nice cache key
+
 # File/URL to return IF we must bypass WordPress
 # Desktop: index.html or index-https.html
 # Mobile:  index-mobile.html or index-mobile-https.html
-set $rocket_end "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix.html$rocket_encryption";
+set $rocket_end "/cache/wp-rocket/$http_host/$r_request_uri/index$rocket_https_prefix.html$rocket_encryption";
 set $rocket_url "/#!# WP_CONTENT_URI #!#$rocket_end";
 set $rocket_file "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
-set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
+set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$r_request_uri/.mobile-active";
 
 
 # Do not bypass if it's a POST request
@@ -73,7 +106,7 @@ if ($request_method = POST) {
 }
 
 # Do not bypass if arguments are found (e.g. ?page=2)
-if ($is_args) {
+if ($r_is_args) {
 	set $rocket_bypass 0;
 	set $rocket_reason "Arguments found";
 }
