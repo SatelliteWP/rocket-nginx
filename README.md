@@ -5,7 +5,7 @@ Rocket-Nginx is a [Nginx](https://nginx.org) configuration for the [WordPress](h
 
 This project is sponsored by SatelliteWP, a [WordPress maintenance service](https://www.satellitewp.com/en) located near Montreal, Canada. Their service is offered in both English and French. SatelliteWP fait de l'[entretien de sites WordPress](https://www.satellitewp.com).
 
-![SatelliteWP - WordPress Maintenance](https://cdn.satellitewp.com/wp-content/uploads/2017/03/logo-dark.png)
+[![SatelliteWP - WordPress Maintenance](https://cdn.satellitewp.com/wp-content/uploads/2017/03/logo-dark.png "SatelliteWP - WordPress Maintenance")](https://www.satellitewp.com/en)
 
 ## <a name='toc'>Table of Contents</a>
 
