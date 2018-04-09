@@ -161,7 +161,7 @@ add_header X-Rocket-Nginx-File $rocket_file;
 ###################################################################################################
 # BROWSER CSS CACHE
 #
-location ~* \.css$ {
+location ~ \.css$ {
 	etag on;
 	gzip_vary on;
 	expires 30d;
@@ -172,7 +172,7 @@ location ~* \.css$ {
 ###################################################################################################
 # BROWSER JS CACHE
 #
-location ~* \.js$ {
+location ~ \.js$ {
 	etag on;
 	gzip_vary on;
 	expires 30d;
@@ -183,7 +183,7 @@ location ~* \.js$ {
 ###################################################################################################
 # BROWSER MEDIA CACHE
 #
-location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
+location ~ \.(#!# EXTENSION_MEDIAS #!#)$ {
 	etag on;
 	expires 30d;
 	#!# HEADER_MEDIAS #!#
