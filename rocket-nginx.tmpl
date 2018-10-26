@@ -83,6 +83,10 @@ if ($r_request_uri ~ (.*)(?:&|\?)utm_content=[^&]*(.*)) {
 	set $r_request_uri $1$2;
 }
 
+if ($r_request_uri ~ (.*)(?:&|\?)fbclid=[^&]*(.*)) {
+	set $r_request_uri $1$2;
+}
+
 # Check if there is any argument with ? or & left
 if ($r_request_uri ~ (.*)(?:&|\?)(.*)) {
 	set $r_is_args 1;
