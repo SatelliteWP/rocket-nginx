@@ -7,16 +7,18 @@
 # Author: Maxime Jobin
 # URL: https://github.com/maximejobin/rocket-nginx
 #
-# Tested with WP-Rocket version: 3.0.5.1
-# Tested with NGINX: 1.15 (mainline)
+# Tested with WP-Rocket version: 3.1.3.2
+# Tested with NGINX: 1.15.3 (mainline)
 #
-# Version 2.1.1
+# Version 2.2
 #
 ###################################################################################################
 
 # Add debug information into header
 set $rocket_debug #!# DEBUG #!#;
 
+set $rocket_tmp1 "";
+set $rocket_tmp2 "";
 
 ###################################################################################################
 # Do not alter theses values
@@ -28,6 +30,7 @@ set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked
 set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
 set $rocket_hsts 0;					# Is HSTS is off (0) by default. Will be turned on (1) if request is HTTPS
+set $rocket_has_query_cache 0;		# Checks if a query string from URL is found from the cached query string
 
 # HSTS value
 set $rocket_hsts_value "#!# HEADER_HSTS #!#";
@@ -57,23 +60,26 @@ if ($rocket_hsts = "0") {
 	set $rocket_hsts_value "";
 }
 
-# File/URL to return IF we must bypass WordPress
-# Desktop: index.html or index-https.html
-# Mobile:  index-mobile.html or index-mobile-https.html
-set $rocket_end "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix.html$rocket_encryption";
-set $rocket_url "/#!# WP_CONTENT_URI #!#$rocket_end";
-set $rocket_file "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
-set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
-
-
 # Do not bypass if it's a POST request
 if ($request_method = POST) {
 	set $rocket_bypass 0;
 	set $rocket_reason "POST request";
 }
 
+# Define Rocket-Nginx $is_args
+set $rocket_is_args $is_args;
+
+# Query strings to ignore
+#!# QUERY_STRING_IGNORE #!#
+
+# Query string to cache
+#!# QUERY_STRING_CACHE #!#
+
+#set $rocket_tmp1 $rocket_args;
+set $rocket_tmp2 $rocket_args_tmp;
+
 # Do not bypass if arguments are found (e.g. ?page=2)
-if ($is_args) {
+if ($rocket_is_args) {
 	set $rocket_bypass 0;
 	set $rocket_reason "Arguments found";
 }
@@ -84,9 +90,7 @@ if (-f "$document_root/.maintenance") {
 	set $rocket_reason "Maintenance mode";
 }
 
-# Do not bypass if one of those cookie if found
-# wordpress_logged_in_[hash] : When a user is logged in, this cookie is created (we'd rather let WP-Rocket handle that)
-# wp-postpass_[hash] : When a protected post requires a password, this cookie is created.
+# Do not bypass if one of those cookie is found
 if ($http_cookie ~* "(#!# COOKIE_INVALIDATE #!#)") {
 	set $rocket_bypass 0;
 	set $rocket_reason "Cookie";
@@ -97,16 +101,53 @@ if (-f "$rocket_mobile_detection") {
 	set $rocket_reason "Specific mobile cache activated";	
 }
 
+# File/URL to return IF we must bypass WordPress
+# Desktop: index.html or index-https.html
+# Mobile:  index-mobile.html or index-mobile-https.html
+set $rocket_end "/cache/wp-rocket/$http_host/$uri/$rocket_args/index$rocket_https_prefix.html$rocket_encryption";
+set $rocket_url "/#!# WP_CONTENT_URI #!#$rocket_end";
+set $rocket_file "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
+set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$uri/$rocket_args/.mobile-active";
+
+set $rocket_end_qs "/cache/wp-rocket/$http_host/$uri/$rocket_args/index$rocket_https_prefix.html$rocket_encryption";
+set $rocket_url_qs "/#!# WP_CONTENT_URI #!#$rocket_end";
+set $rocket_file_qs "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
+set $rocket_mobile_detection_qs "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$uri/$rocket_args/.mobile-active";
+
 # Do not bypass if the cached file does not exist
+set $rocket_file_test "";
 if (!-f "$rocket_file") {
+	set $rocket_file_test "0";
+	set $rocket_file_test $rocket_file_test$rocket_bypass;
+}
+if ($rocket_file_test = "01") {
 	set $rocket_bypass 0;
 	set $rocket_reason "File not cached";
+}
+
+set $rocket_tmp1 $rocket_file_test;
+
+# Do not bypass if the cached file does not exist
+if (!-f "$rocket_file_qs") {
+	set $rocket_bypass 0;
+	##set $rocket_reason "File not cached";
+}
+
+# Bypass if the cache file exists for the query string
+if (-f "$rocket_file_qs") {
+	set $rocket_bypass 2;
 }
 
 # If the bypass token is still on, let's bypass WordPress with the cached URL
 if ($rocket_bypass = 1) {
 	set $rocket_is_bypassed "Yes";
 	set $rocket_reason "$rocket_url";
+}
+
+# If the bypass token is still on for query string, let's bypass WordPress with the cached URL
+if ($rocket_bypass = 2) {
+	set $rocket_is_bypassed "Yes";
+	set $rocket_reason "$rocket_url_qs";
 }
 
 # Clear variables if debug is not needed
@@ -120,6 +161,11 @@ if ($rocket_bypass = 1) {
 	rewrite .* "$rocket_url" last;
 }
 
+# If the bypass token is still on for query string, rewrite according to the file linked to the request
+if ($rocket_bypass = 2) {
+	rewrite .* "$rocket_url_qs" last;
+}
+
 # Add header to HTML cached files
 location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	etag on;
@@ -131,6 +177,9 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	add_header Strict-Transport-Security "$rocket_hsts_value";
 	#!# HEADER_HTTP #!#
 	#!# HEADER_NON_GZIP #!#
+
+	add_header X-Rocket-tmp1 $rocket_tmp1;
+	add_header X-Rocket-tmp2 $rocket_tmp2;
 }
 
 # Do not gzip cached files that are already gzipped
@@ -148,12 +197,17 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	add_header Strict-Transport-Security "$rocket_hsts_value";
 	#!# HEADER_HTTP #!#
 	#!# HEADER_GZIP #!#
+
+	add_header X-Rocket-tmp1 $rocket_tmp1;
+	add_header X-Rocket-tmp2 $rocket_tmp2;
 }
 
 # Debug header (when file is not cached)
 add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 add_header X-Rocket-Nginx-Reason $rocket_reason;
 add_header X-Rocket-Nginx-File $rocket_file;
+add_header X-Rocket-tmp1 $rocket_tmp1;
+add_header X-Rocket-tmp2 $rocket_tmp2;
 
 # No HSTS header added here. We suppose it's correctly added in the site configuration
 

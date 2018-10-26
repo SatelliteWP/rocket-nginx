@@ -1,7 +1,7 @@
 ; Rocket-Nginx configuration file
 ; Author: Maxime Jobin
 ; URL: https://github.com/maximejobin/rocket-nginx
-; Version: 2.1.1
+; Version: 2.2
 
 ; Default configuration
 [default]
@@ -33,6 +33,32 @@ cookie_invalidate[] = "woocommerce_cart_hash"
 cookie_invalidate[] = "wptouch_switch_toogle"
 cookie_invalidate[] = "comment_author_"
 cookie_invalidate[] = "comment_author_email_"
+
+; Query strings to ignore
+; Query strings invalidate the caching process made by Rocket-Nginx. But some strings are added, for instance,
+; for JavaScript and do not influence the output provided by the server. List all query strings that won't
+; invalidate the use of a cached page.
+query_string_ignore[] = "utm_source"
+query_string_ignore[] = "utm_content"
+query_string_ignore[] = "utm_term"
+query_string_ignore[] = "utm_campaign"
+query_string_ignore[] = "utm_medium"
+query_string_ignore[] = "gclid"
+query_string_ignore[] = "utm_expid"
+query_string_ignore[] = "fb_action_ids"
+query_string_ignore[] = "fb_action_types"
+query_string_ignore[] = "fb_source"
+query_string_ignore[] = "permalink_name"
+query_string_ignore[] = "lp-variation-id"
+query_string_ignore[] = "lang"
+query_string_ignore[] = "age-verified"
+query_string_ignore[] = "ao_noptimize"
+
+; Query strings to cache
+; Query strings invalidate the caching process made by Rocket-Nginx. Some strings may need to be cached.
+; List all query strings that needs to be cached as found in the WP Rocket configuration.
+; Reference: https://docs.wp-rocket.me/article/971-caching-query-strings
+;query_string_cache[] = "country"
 
 ; HTTP(S) headers
 ; Custom headers can be added to the HTTP(S) requests for cached files (pages, posts, custom post types, 
