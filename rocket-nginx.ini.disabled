@@ -53,7 +53,7 @@ cookie_invalidate[] = "comment_author_email_"
 ; etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple headers
 ; can be added.
 ; Format: name "value"
-; Example: gzip_header[Is-Compressed] = "Yes"
+; Example: nongzip_header[Is-Compressed] = "Yes"
 
 ; HTTP Strict Transport Security (HSTS)
 ; HTTP Strict Transport Security (HSTS) is an opt-in security enhancement that is specified by a web 
