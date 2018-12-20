@@ -47,7 +47,14 @@ if ($http_accept_encoding ~ br) {
 }
 
 # Is SSL request ?
+set $rocket_is_ssl_request 0;
 if ($https = "on") {
+	set $rocket_is_ssl_request 1;
+}
+if ($http_x_forwarded_proto = "https") {
+	set $rocket_is_ssl_request 1;
+}
+if ($rocket_is_ssl_request = "1") {
 	set $rocket_https_prefix "-https";
 	set $rocket_hsts 1;
 }
