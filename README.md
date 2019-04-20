@@ -3,9 +3,9 @@ Rocket-Nginx
 
 Rocket-Nginx is a [Nginx](https://nginx.org) configuration for the [WordPress](https://wordpress.org) cache plugin [WP-Rocket](https://wp-rocket.me). It enables Nginx to serve directly previously cached files without calling WordPress or any PHP. It also adds headers to cache CSS, JS and medias in order to leverage browser's cache by reducing request to your web server.
 
-This project is sponsored by SatelliteWP, a [WordPress maintenance service](https://www.satellitewp.com/en) located near Montreal, Canada. Their service is offered in both English and French. SatelliteWP fait de l'[entretien de sites WordPress](https://www.satellitewp.com).
+This project is sponsored by SatelliteWP, a [WordPress maintenance service](https://www.satellitewp.com/en) located near Montreal, Canada. Their service is offered in both English and French. SatelliteWP fait de l'[entretien de sites WordPress](https://www.satellitewp.com/?utm_source=rocket-nginx).
 
-[![SatelliteWP - WordPress Maintenance](https://cdn.satellitewp.com/wp-content/uploads/2017/03/logo-dark.png "SatelliteWP - WordPress Maintenance")](https://www.satellitewp.com/en)
+[![SatelliteWP - WordPress Maintenance](https://cdn.satellitewp.com/wp-content/uploads/2019/03/logo.png "SatelliteWP - WordPress Maintenance")](https://www.satellitewp.com/en?utm_source=rocket-nginx)
 
 ## <a name='toc'>Table of Contents</a>
 
@@ -19,7 +19,7 @@ This project is sponsored by SatelliteWP, a [WordPress maintenance service](http
 
 ## <a name='contributors'>Contributors</a>
 
-The configuration was created and is maintained by [Maxime Jobin](https://www.maximejobin.com) ([@maximejobin](https://twitter.com/maximejobin)). 
+The configuration was created by [https://www.satellitewp.com/en?utm_source=rocket-nginx Jobin](https://www.maximejobin.com) ([@maximejobin](github.com/maximejobin)) and is now maintained by [SatelliteWP](https://www.satellitewp.com/en?utm_source=rocket-nginx). 
 
 ## <a name='before'>Before You Start</a>
 As the configuration's goal is to serve cached files directly without having to execute any PHP from WordPress, this may cause your scheduled jobs to not be called.  As you may already know, WP-Cron jobs are not real cron jobs and are executed only when you have visits on your site.
@@ -45,7 +45,7 @@ Make sure you test that your tasks still run after this change!
 
 ## <a name='installation'>Installation</a>
 
-In order to use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/maximejobin/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
+In order to use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/satellitewp/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
 
 Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP-Rocket. That said, you can generate as many configuration files as needed.
 
@@ -54,7 +54,7 @@ You can create a folder `rocket-nginx` directory in your Nginx configuration dir
 To install, you can:
   ```
   cd /etc/nginx
-  git clone https://github.com/maximejobin/rocket-nginx.git
+  git clone https://github.com/satellitewp/rocket-nginx.git
   ```
 
 Since version 2.0, the configuration must be generated. To generate the default configuration, you must rename the disabled ini file and run the configuration parser:
