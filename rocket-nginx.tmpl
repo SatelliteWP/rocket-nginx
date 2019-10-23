@@ -7,10 +7,10 @@
 # Author: Maxime Jobin
 # URL: https://github.com/maximejobin/rocket-nginx
 #
-# Tested with WP-Rocket version: 3.0.5.1
-# Tested with NGINX: 1.15 (mainline)
+# Tested with WP-Rocket version: 3.4.0.5
+# Tested with NGINX: 1.16.1 (mainline)
 #
-# Version 2.1.1
+# Version 2.2.0
 #
 ###################################################################################################
 
@@ -28,6 +28,11 @@ set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked
 set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
 set $rocket_hsts 0;					# Is HSTS is off (0) by default. Will be turned on (1) if request is HTTPS
+set $rocket_webp_prefix "";         # Allow to use the WEBP generated cache files if the browser supports it
+
+set $rocket_vary "Accept-Encoding, Cookie";                         # Default Vary header
+set $rocket_cache_control "#!# HTML_CACHE_CONTROL #!#";    # Default cache-control header
+set $rocket_content_encoding "";                                    # Default content encoding
 
 # HSTS value
 set $rocket_hsts_value "#!# HEADER_HSTS #!#";
@@ -46,6 +51,11 @@ if ($http_accept_encoding ~ br) {
 	set $rocket_encryption "";
 }
 
+# Is webp supported by the client ?
+if ($http_accept ~ webp) {
+    set $rocket_webp_prefix "-webp";
+}
+
 # Is SSL request ?
 if ($https = "on") {
 	set $rocket_https_prefix "-https";
@@ -57,11 +67,14 @@ if ($rocket_hsts = "0") {
 	set $rocket_hsts_value "";
 }
 
-# File/URL to return IF we must bypass WordPress
+## File/URL to return IF we must bypass WordPress
 # Desktop: index.html or index-https.html
 # Mobile:  index-mobile.html or index-mobile-https.html
+# WEBP:    index-webp.html or index-https-webp.html
 set $rocket_end "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix.html$rocket_encryption";
+set $rocket_end_webp "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix$rocket_webp_prefix.html$rocket_encryption";
 set $rocket_url "/#!# WP_CONTENT_URI #!#$rocket_end";
+set $rocket_url_webp "/#!# WP_CONTENT_URI #!#$rocket_end_webp";
 set $rocket_file "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
 set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
 
@@ -100,7 +113,7 @@ if (-f "$rocket_mobile_detection") {
 # Do not bypass if the cached file does not exist
 if (!-f "$rocket_file") {
 	set $rocket_bypass 0;
-	set $rocket_reason "File not cached";
+	set $rocket_reason "Cache file not found";
 }
 
 # If the bypass token is still on, let's bypass WordPress with the cached URL
@@ -115,22 +128,24 @@ if ($rocket_debug = 0) {
 	set $rocket_file "";
 }
 
+# Clear caching headers and cache urls if bypass is disabled
+if ($rocket_bypass = 0) {
+    set $rocket_vary "";
+    set $rocket_cache_control "";
+    set $rocket_content_encoding "";
+    set $rocket_url "NULL";
+    set $rocket_url_webp "NULL";
+}
+
 # If the bypass token is still on, rewrite according to the file linked to the request
-if ($rocket_bypass = 1) {
-	rewrite .* "$rocket_url" last;
+location / {
+    # Try to access the webp file first, then default caching file and as a fallback default WordPress w/o caching
+    try_files $rocket_url_webp $rocket_url $uri $uri/ /index.php?$args;
 }
 
 # Add header to HTML cached files
 location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	etag on;
-	add_header Vary "Accept-Encoding, Cookie";
-	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-	add_header X-Rocket-Nginx-Reason $rocket_reason;
-	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header Strict-Transport-Security "$rocket_hsts_value";
-	#!# HEADER_HTTP #!#
-	#!# HEADER_NON_GZIP #!#
 }
 
 # Do not gzip cached files that are already gzipped
@@ -139,24 +154,19 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	gzip off;
 	types {}
 	default_type text/html;
-	add_header Content-Encoding gzip;
-	add_header Vary "Accept-Encoding, Cookie";
-	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-	add_header X-Rocket-Nginx-Reason $rocket_reason;
-	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header Strict-Transport-Security "$rocket_hsts_value";
-	#!# HEADER_HTTP #!#
-	#!# HEADER_GZIP #!#
 }
+
+# Setting the caching headers
+add_header Content-Encoding $rocket_content_encoding;
+add_header Vary $rocket_vary;
+add_header Cache-Control $rocket_cache_control;
+add_header Strict-Transport-Security "$rocket_hsts_value";
+#!# HEADER_HTTP #!#
 
 # Debug header (when file is not cached)
 add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 add_header X-Rocket-Nginx-Reason $rocket_reason;
 add_header X-Rocket-Nginx-File $rocket_file;
-
-# No HSTS header added here. We suppose it's correctly added in the site configuration
-
 
 ###################################################################################################
 # BROWSER CSS CACHE
@@ -164,7 +174,7 @@ add_header X-Rocket-Nginx-File $rocket_file;
 location ~* \.css$ {
 	etag on;
 	gzip_vary on;
-	expires 30d;
+	expires 90d;
 	#!# HEADER_CSS #!#
 }
 
@@ -175,7 +185,7 @@ location ~* \.css$ {
 location ~* \.js$ {
 	etag on;
 	gzip_vary on;
-	expires 30d;
+	expires 90d;
 	#!# HEADER_JS #!#
 }
 
@@ -185,6 +195,6 @@ location ~* \.js$ {
 #
 location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
 	etag on;
-	expires 30d;
+	expires 90d;
 	#!# HEADER_MEDIAS #!#
 }
