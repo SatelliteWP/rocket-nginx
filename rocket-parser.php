@@ -101,20 +101,6 @@ class RocketParser {
         $header_http = $this->getGeneratedHeaders($section['http_header']);
       }
       $output = str_replace('#!# HEADER_HTTP #!#', $header_http, $output);
-      
-      // GZIP headers
-      $gzip_header = '';
-      if (isset($section['gzip_header']) && is_array($section['gzip_header'])) {
-        $gzip_header = $this->getGeneratedHeaders($section['gzip_header']);
-      }
-      $output = str_replace('#!# HEADER_GZIP #!#', $gzip_header, $output);
-
-      // Non-GZIP headers
-      $nongzip_header = '';
-      if (isset($section['nongzip_header']) && is_array($section['nongzip_header'])) {
-        $nongzip_header = $this->getGeneratedHeaders($section['nongzip_header']);
-      }
-      $output = str_replace('#!# HEADER_NON_GZIP #!#', $nongzip_header, $output);
 
       // CSS headers
       $css_header = '';
