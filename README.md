@@ -15,7 +15,7 @@ This project is sponsored by SatelliteWP, a [WordPress maintenance service](http
   1. [Configuration](#configuration)
   1. [WP-Rocket Configuration](#wp-rocket)
   1. [Debug](#debug)
-  1. [FAQ](#css)
+  1. [FAQ](#faq)
   1. [License](#license)
 
 ## <a name='contributors'>Contributors</a>
