@@ -6,9 +6,9 @@
 * website with the cache plugin WP-Rocket (http://wp-rocket.me)
 *
 * Author: Maxime Jobin
-* URL: https://github.com/maximejobin/rocket-nginx
+* URL: https://github.com/SatelliteWP/rocket-nginx
 *
-* Version 2.1.1
+* Version 2.2.0
 *
 **************************************************************************************************/
 

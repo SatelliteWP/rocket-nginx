@@ -1,7 +1,7 @@
 ; Rocket-Nginx configuration file
 ; Author: Maxime Jobin
-; URL: https://github.com/maximejobin/rocket-nginx
-; Version: 2.1.1
+; URL: https://github.com/SatelliteWP/rocket-nginx
+; Version: 2.2.0
 
 ; Default configuration
 [default]
@@ -41,20 +41,6 @@ cookie_invalidate[] = "comment_author_email_"
 ; Format: name "value"
 ; Example: http_header[My-Domain] = "mydomain.com"
 
-; HTTP(S) gzipped headers
-; Custom headers can be added to the requests that serve already gzipped cached files (pages, posts, custom 
-; post types,etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple 
-; headers can be added.
-; Format: name "value"
-; Example: gzip_header[Is-Already-Gzipped] = "Yes"
-
-; HTTP(S) non gzipped headers
-; Custom headers can be added to the requests that serve cached files (pages, posts, custom post types, 
-; etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple headers
-; can be added.
-; Format: name "value"
-; Example: nongzip_header[Is-Compressed] = "Yes"
-
 ; HTTP Strict Transport Security (HSTS)
 ; HTTP Strict Transport Security (HSTS) is an opt-in security enhancement that is specified by a web 
 ; application through the use of a special response header. Once a supported browser receives this 
@@ -84,7 +70,7 @@ header_hsts = "max-age=31536000; includeSubDomains"
 ; Medias extensions for images, icons, fonts and other cachable medias. All extensions are separated
 ; by pipes (|).
 ; Default value: ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg
-media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg"
+media_extensions = "ico|gif|jpe?g|png|svg|webp|eot|otf|woff|woff2|ttf|ogg"
 
 ; Medias headers
 ; Custom headers can be added to the medias requests for 
