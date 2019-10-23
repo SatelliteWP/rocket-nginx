@@ -13,13 +13,16 @@ This project is sponsored by SatelliteWP, a [WordPress maintenance service](http
   1. [Before You Start](#before)
   1. [Installation](#installation)
   1. [Configuration](#configuration)
+  1. [WP-Rocket Configuration](#wp-rocket)
   1. [Debug](#debug)
   1. [FAQ](#css)
   1. [License](#license)
 
 ## <a name='contributors'>Contributors</a>
 
-The configuration was created by [Maxime Jobin](https://www.maximejobin.com) ([@maximejobin](https://github.com/maximejobin)) and is now maintained by [SatelliteWP](https://www.satellitewp.com/en?utm_source=rocket-nginx). 
+The configuration was created by [Maxime Jobin](https://www.maximejobin.com) ([@maximejobin](https://github.com/maximejobin)) and is now maintained by [SatelliteWP](https://www.satellitewp.com/en?utm_source=rocket-nginx).
+
+Improved handling of global headers and WEBP support by [Jan Thiel](https://github.com/janthiel) 
 
 ## <a name='before'>Before You Start</a>
 As the configuration's goal is to serve cached files directly without having to execute any PHP from WordPress, this may cause your scheduled jobs to not be called.  As you may already know, WP-Cron jobs are not real cron jobs and are executed only when you have visits on your site.
@@ -45,11 +48,11 @@ Make sure you test that your tasks still run after this change!
 
 ## <a name='installation'>Installation</a>
 
-In order to use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/satellitewp/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
+In order to use the script, you must include it in your actual nginx configuration. If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/satellitewp/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
 
-Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP-Rocket. That said, you can generate as many configuration files as needed.
+Only one config files you generated with Rocket-Nginx is needed for all your WordPress websites using WP-Rocket. That said, you can generate as many configuration files as needed.
 
-You can create a folder `rocket-nginx` directory in your Nginx configuration directory. If you are using Ubuntu, your Nginx configuration (nginx.conf) should be found in: `/etc/nginx/`.
+If you are using Ubuntu, Debian or RHEL/CentOS your Nginx configuration (nginx.conf) should be found in: `/etc/nginx/`.
 
 To install, you can:
   ```
@@ -57,15 +60,15 @@ To install, you can:
   git clone https://github.com/satellitewp/rocket-nginx.git
   ```
 
-Since version 2.0, the configuration must be generated. To generate the default configuration, you must rename the disabled ini file and run the configuration parser:
+The configuration has to be generated. To generate the default configuration, you have to rename the disabled ini file and run the configuration parser:
 ```
 cd rocket-nginx
 cp rocket-nginx.ini.disabled rocket-nginx.ini
 php rocket-parser.php
 ```
-This will generate the `default.conf` configuration that can be included for all websites.  If you need to alter the default configuration, you can edit the ini file and add another section at the bottom of the file.
+This will generate the `default.conf` configuration that can be included for all websites. If you need to alter the default configuration, you can edit the ini file and add another section at the bottom of the file.
 
-Then, in your configuration file, you must [include](https://nginx.org/en/docs/ngx_core_module.html#include) the configuration. If your websites configurations are in `/etc/nginx/sites-available`, you need to alter your configuration:
+Then, in your configuration file, you have to [include](https://nginx.org/en/docs/ngx_core_module.html#include) the configuration. If your websites configurations are in `/etc/nginx/sites-available`, you need to alter your configuration:
 
 ```
 server {
@@ -118,6 +121,11 @@ Finally, **each time** you generate (or regenerate) the configurations files, yo
 
     `service nginx reload`
 
+## <a name='wp-rocket'>WP-Rocket Configuration</a>
+
+You just have to activate the plugin on your site to have caching enabled. 
+
+If you want to have WEBP support for your website, you have to enable the "WEBP Feature" within WP-Rocket in the *Media* section. You still require a tool to actually generating the webp files for you.
 
 ## <a name='debug'>Debug</a>
 You may want to check if your files are served directly by Nginx and not calling any PHP. To do that, open the `rocket-nginx.ini` file and change the debug value from:
@@ -142,7 +150,7 @@ Reasons for not serving a cached file:
   * **Maintenance mode**: The .maintenance file was found. Therefore, let's WordPress handle what should be displayed.
   * **Cookie**: A specific cookie was found and tells to not serve the cached page (e.g. user is logged in, post with password).
   * **Specific mobile cache activated**: If you activated specific cache (one for mobile and one for desktop) in WP-Rocket, HTML files (pages, posts, ...) won't be served directly because Rocket-Nginx cannot know if the request was made by mobile or desktop device.
-  * **File not cached**: No cached file was found for that request.
+  * **Cache file not found**: No cached file was found for that request.
 
 ## <a name='faq'>FAQ</a>
 
