@@ -83,8 +83,8 @@ header_hsts = "max-age=31536000; includeSubDomains"
 ; Medias extensions
 ; Medias extensions for images, icons, fonts and other cachable medias. All extensions are separated
 ; by pipes (|).
-; Default value: ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg
-media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg"
+; Default value: ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp
+media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp"
 
 ; Medias headers
 ; Custom headers can be added to the medias requests for 
