@@ -27,6 +27,7 @@ set $rocket_file "";				# Filename to use
 set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
 set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
+set $rocket_webp_prefix "";         # The webp prefix to use when cached files are using webp
 set $rocket_hsts 0;					# Is HSTS is off (0) by default. Will be turned on (1) if request is HTTPS
 
 # HSTS value
@@ -57,10 +58,14 @@ if ($rocket_hsts = "0") {
 	set $rocket_hsts_value "";
 }
 
+if ($http_accept ~* "webp") {
+    set $rocket_webp_prefix "-webp";
+}
+
 # File/URL to return IF we must bypass WordPress
 # Desktop: index.html or index-https.html
 # Mobile:  index-mobile.html or index-mobile-https.html
-set $rocket_end "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix.html$rocket_encryption";
+set $rocket_end "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix$rocket_webp_prefix.html$rocket_encryption";
 set $rocket_url "/#!# WP_CONTENT_URI #!#$rocket_end";
 set $rocket_file "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
 set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
