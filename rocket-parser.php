@@ -5,10 +5,13 @@
 * Rocket-Parser is a configuration generator for Rocket-Nginx to speedup your
 * website with the cache plugin WP-Rocket (http://wp-rocket.me)
 *
-* Author: Maxime Jobin
-* URL: https://github.com/maximejobin/rocket-nginx
+* Maintainer: SatelliteWP
+* URL: https://github.com/satellitewp/rocket-nginx
 *
-* Version 2.1.1
+* Original author: Maxime Jobin
+* URL: https://www.maximejobin.com
+*
+* Version 3.0.0
 *
 **************************************************************************************************/
 

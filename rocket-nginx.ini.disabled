@@ -1,7 +1,10 @@
 ; Rocket-Nginx configuration file
-; Author: Maxime Jobin
+; Maintainer: SatelliteWP
 ; URL: https://github.com/maximejobin/rocket-nginx
-; Version: 2.1.1
+;
+; Original author: Maxime Jobin
+; URL: https://www.maximejobin.com
+; Version: 3.0.0
 
 ; Default configuration
 [default]
