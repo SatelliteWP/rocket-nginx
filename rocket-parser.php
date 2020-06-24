@@ -98,54 +98,32 @@ class RocketParser {
       }
       $output = str_replace('#!# COOKIE_INVALIDATE #!#', $cookies, $output);
 
-      // HTTP headers
-      $header_http = '';
-      if (isset($section['http_header']) && is_array($section['http_header'])) {
-        $header_http = $this->getGeneratedHeaders($section['http_header']);
-      }
-      $output = str_replace('#!# HEADER_HTTP #!#', $header_http, $output);
-      
-      // GZIP headers
-      $gzip_header = '';
-      if (isset($section['gzip_header']) && is_array($section['gzip_header'])) {
-        $gzip_header = $this->getGeneratedHeaders($section['gzip_header']);
-      }
-      $output = str_replace('#!# HEADER_GZIP #!#', $gzip_header, $output);
+      // Global include
+      $include_global = $this->getGeneratedInclude($name, 'global');
+      $output = str_replace('#!# INCLUDE_GLOBAL #!#', $include_global, $output);
 
-      // Non-GZIP headers
-      $nongzip_header = '';
-      if (isset($section['nongzip_header']) && is_array($section['nongzip_header'])) {
-        $nongzip_header = $this->getGeneratedHeaders($section['nongzip_header']);
-      }
-      $output = str_replace('#!# HEADER_NON_GZIP #!#', $nongzip_header, $output);
+      // HTTP include
+      $include_http = $this->getGeneratedInclude($name, 'http');
+      $output = str_replace('#!# INCLUDE_HTTP #!#', $include_http, $output);
 
       // CSS headers
-      $css_header = '';
-      if (isset($section['css_header']) && is_array($section['css_header'])) {
-        $css_header = $this->getGeneratedHeaders($section['css_header']);
-      }
-      $output = str_replace('#!# HEADER_CSS #!#', $css_header, $output);
+      $include_css = $this->getGeneratedInclude($name, 'css');
+      $output = str_replace('#!# INCLUDE_CSS #!#', $include_css, $output);
 
       // JS headers
-      $js_header = '';
-      if (isset($section['js_header']) && is_array($section['js_header'])) {
-        $js_header = $this->getGeneratedHeaders($section['js_header']);
-      }
-      $output = str_replace('#!# HEADER_JS #!#', $js_header, $output);
+      $include_js = $this->getGeneratedInclude($name, 'js');
+      $output = str_replace('#!# INCLUDE_JS #!#', $include_js, $output);
 
       // Media headers
-      $medias_header = '';
-      if (isset($section['medias_header']) && is_array($section['medias_header'])) {
-        $medias_header = $this->getGeneratedHeaders($section['medias_header']);
-      }
-      $output = str_replace('#!# HEADER_MEDIAS #!#', $medias_header, $output);
+      $include_media = $this->getGeneratedInclude($name, 'media');
+      $output = str_replace('#!# INCLUDE_MEDIA #!#', $include_media, $output);
 
       // Media extensions
       $media_extensions = '';
       if (isset($section['media_extensions']) && !empty($section['media_extensions'])) {
         $media_extensions = $section['media_extensions'];
       }
-      $output = str_replace('#!# EXTENSION_MEDIAS #!#', $media_extensions, $output);
+      $output = str_replace('#!# MEDIA_EXTENSIONS #!#', $media_extensions, $output);
       
 
       // Create main configuration folder if it doesn't exist
@@ -183,6 +161,7 @@ class RocketParser {
    *
    * @return string Nginx headers
    */
+  /*
   protected function getGeneratedHeaders($headers) {
     $result = '';
 
@@ -199,6 +178,20 @@ class RocketParser {
         $iteration++;
       }
     }
+
+    return $result;
+  }*/
+
+  /**
+   * Returns generated include for a section headers
+   *
+   * @param $config string Configuration name 
+   * @param $section string Section name
+   *
+   * @return string Include statement
+   */
+  protected function getGeneratedInclude($config, $section) {
+    $result = "include conf.d/{$config}/{$section}.*.conf;";
 
     return $result;
   }

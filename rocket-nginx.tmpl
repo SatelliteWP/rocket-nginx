@@ -129,8 +129,8 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
-	#!# HEADER_HTTP #!#
-	#!# HEADER_NON_GZIP #!#
+	#!# INCLUDE_GLOBAL #!#
+	#!# INCLUDE_HTTP #!#
 }
 
 # Do not gzip cached files that are already gzipped
@@ -146,8 +146,8 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
-	#!# HEADER_HTTP #!#
-	#!# HEADER_GZIP #!#
+	#!# INCLUDE_GLOBAL #!#
+	#!# INCLUDE_HTTP #!#
 }
 
 # Debug header (when file is not cached)
@@ -165,7 +165,8 @@ location ~* \.css$ {
 	etag on;
 	gzip_vary on;
 	expires 30d;
-	#!# HEADER_CSS #!#
+	#!# INCLUDE_GLOBAL #!#
+	#!# INCLUDE_CSS #!#
 }
 
 
@@ -176,15 +177,17 @@ location ~* \.js$ {
 	etag on;
 	gzip_vary on;
 	expires 30d;
-	#!# HEADER_JS #!#
+	#!# INCLUDE_GLOBAL #!#
+	#!# INCLUDE_JS #!#
 }
 
 
 ###################################################################################################
 # BROWSER MEDIA CACHE
 #
-location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
+location ~* \.(#!# MEDIA_EXTENSIONS #!#)$ {
 	etag on;
 	expires 30d;
-	#!# HEADER_MEDIAS #!#
+	#!# INCLUDE_GLOBAL #!#
+	#!# INCLUDE_MEDIA #!#
 }
