@@ -98,6 +98,13 @@ class RocketParser {
       }
       $output = str_replace('#!# QUERY_STRING_IGNORE #!#', $query_strings_ignore, $output);
 
+      // Query strings to cache
+      $query_strings_cache = '';
+      if (isset($section['query_string_cache']) && is_array($section['query_string_cache'])) {
+        $query_strings_cache = $this->getGeneratedQueryStringsToCache($section['query_string_cache']);
+      }
+      $output = str_replace('#!# QUERY_STRING_CACHE #!#', $query_strings_cache, $output);
+
       // Global include
       $include_global = $this->getGeneratedInclude($name, 'global');
       $output = str_replace('#!# INCLUDE_GLOBAL #!#', $include_global, $output);
@@ -184,6 +191,42 @@ class RocketParser {
       $result .= "\n";
       $result .= '# Do not count arguments if part of caching arguments' . "\n";
       $result .= 'if ($rocket_args ~ ^\?$) {' . "\n";
+      $result .= "\t" . 'set $rocket_args "";' . "\n";
+      $result .= "\t" . 'set $rocket_is_args "";' . "\n";
+      $result .= '}' . "\n";
+    }
+    else {
+      $result = "# None.\n";
+    }
+
+    return $result;
+  }
+
+  /**
+   * Returns generated query strings statement to cache
+   * 
+   * @param $queryStrings array Query strings to cache
+   * 
+   * @return string Nginx "if" statements
+   */
+  protected function getGeneratedQueryStringsToCache($queryStrings) {
+    $result = '';
+
+    if (isset($queryStrings) && is_array($queryStrings)) {
+      $iteration = 1;
+
+      $result .= 'set $rocket_args_tmp $rocket_args;' . "\n";
+      foreach ($queryStrings as $name => $value) {
+
+        $result .= 'if ($rocket_args_tmp ~ (.*)(?:&|^)' . $value . '=[^&]*(.*)) { ';
+        $result .= 'set $rocket_has_query_cache 1; ';
+        $result .= "}\n";
+
+        $iteration++;
+      }
+
+      $result .= "\n";
+      $result .= 'if ($rocket_has_query_cache = 1) {' . "\n";
       $result .= "\t" . 'set $rocket_args "";' . "\n";
       $result .= "\t" . 'set $rocket_is_args "";' . "\n";
       $result .= '}' . "\n";

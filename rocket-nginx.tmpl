@@ -27,6 +27,7 @@ set $rocket_file "";				# Filename to use
 set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
 set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
+set $rocket_has_query_cache 0;		# Checks if a query string from URL is found from the cached query string
 
 ###################################################################################################
 # PAGE CACHE
@@ -68,6 +69,9 @@ set $rocket_is_args $is_args;
 
 # Query strings to ignore
 #!# QUERY_STRING_IGNORE #!#
+
+# Query string to cache
+#!# QUERY_STRING_CACHE #!#
 
 # Do not bypass if arguments are found (e.g. ?page=2)
 if ($is_args) {

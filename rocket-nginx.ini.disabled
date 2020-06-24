@@ -41,6 +41,7 @@ cookie_invalidate[] = "comment_author_email_"
 ; Query strings invalidate the caching process made by Rocket-Nginx. But some strings are added, for instance,
 ; for JavaScript and do not influence the output provided by the server. List all query strings that won't
 ; invalidate the use of a cached page.
+; Reference: https://docs.wp-rocket.me/article/971-caching-query-strings
 query_string_ignore[] = "utm_source"
 query_string_ignore[] = "utm_content"
 query_string_ignore[] = "utm_term"
@@ -56,6 +57,14 @@ query_string_ignore[] = "lp-variation-id"
 query_string_ignore[] = "lang"
 query_string_ignore[] = "age-verified"
 query_string_ignore[] = "ao_noptimize"
+query_string_ignore[] = "usqp"
+query_string_ignore[] = "cn-reloaded"
+
+; Query strings to cache
+; Query strings invalidate the caching process made by Rocket-Nginx. Some strings may need to be cached.
+; List all query strings that needs to be cached as found in the WP Rocket configuration.
+; Reference: https://docs.wp-rocket.me/article/971-caching-query-strings
+;query_string_cache[] = "country"
 
 ; Medias extensions
 ; Medias extensions for images, icons, fonts and other cachable medias. All extensions are separated
@@ -71,5 +80,3 @@ media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp"
 ; In the following example, the 'default' configuration is used and added a custom cookie invalidation.
 ;[example.com : default]
 ;cookie_invalidate[] = "my_custom_cookie"
-
-
