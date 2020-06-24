@@ -63,6 +63,12 @@ if ($request_method = POST) {
 	set $rocket_reason "POST request";
 }
 
+# Define Rocket-Nginx $is_args
+set $rocket_is_args $is_args;
+
+# Query strings to ignore
+#!# QUERY_STRING_IGNORE #!#
+
 # Do not bypass if arguments are found (e.g. ?page=2)
 if ($is_args) {
 	set $rocket_bypass 0;

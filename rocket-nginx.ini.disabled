@@ -37,6 +37,26 @@ cookie_invalidate[] = "wptouch_switch_toogle"
 cookie_invalidate[] = "comment_author_"
 cookie_invalidate[] = "comment_author_email_"
 
+; Query strings to ignore
+; Query strings invalidate the caching process made by Rocket-Nginx. But some strings are added, for instance,
+; for JavaScript and do not influence the output provided by the server. List all query strings that won't
+; invalidate the use of a cached page.
+query_string_ignore[] = "utm_source"
+query_string_ignore[] = "utm_content"
+query_string_ignore[] = "utm_term"
+query_string_ignore[] = "utm_campaign"
+query_string_ignore[] = "utm_medium"
+query_string_ignore[] = "gclid"
+query_string_ignore[] = "utm_expid"
+query_string_ignore[] = "fb_action_ids"
+query_string_ignore[] = "fb_action_types"
+query_string_ignore[] = "fb_source"
+query_string_ignore[] = "permalink_name"
+query_string_ignore[] = "lp-variation-id"
+query_string_ignore[] = "lang"
+query_string_ignore[] = "age-verified"
+query_string_ignore[] = "ao_noptimize"
+
 ; Medias extensions
 ; Medias extensions for images, icons, fonts and other cachable medias. All extensions are separated
 ; by pipes (|).
@@ -50,6 +70,6 @@ media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp"
 
 ; In the following example, the 'default' configuration is used and added a custom cookie invalidation.
 ;[example.com : default]
-;cookie_invalidate[] = "my_custome_cookie"
+;cookie_invalidate[] = "my_custom_cookie"
 
 

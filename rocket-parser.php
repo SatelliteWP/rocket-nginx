@@ -91,6 +91,13 @@ class RocketParser {
       }
       $output = str_replace('#!# COOKIE_INVALIDATE #!#', $cookies, $output);
 
+      // Query strings to ignore
+      $query_strings_ignore = '';
+      if (isset($section['query_string_ignore']) && is_array($section['query_string_ignore'])) {
+        $query_strings_ignore = $this->getGeneratedQueryStringsToIgnore($section['query_string_ignore']);
+      }
+      $output = str_replace('#!# QUERY_STRING_IGNORE #!#', $query_strings_ignore, $output);
+
       // Global include
       $include_global = $this->getGeneratedInclude($name, 'global');
       $output = str_replace('#!# INCLUDE_GLOBAL #!#', $include_global, $output);
@@ -148,32 +155,45 @@ class RocketParser {
     }
   }
 
-  /**
-   * Returns generated Nginx headers
-   * @param $headers array Headers
-   *
-   * @return string Nginx headers
+/**
+   * Returns generated query strings statement to ignore
+   * @param $queryStrings array Query strings to ignore
+   * 
+   * @return string Nginx "if" statements
    */
-  /*
-  protected function getGeneratedHeaders($headers) {
+  protected function getGeneratedQueryStringsToIgnore($queryStrings) {
     $result = '';
 
-    if (isset($headers) && is_array($headers)) {
+    if (isset($queryStrings) && is_array($queryStrings)) {
       $iteration = 1;
 
-      foreach ($headers as $name => $value) {
+      $result .= 'set $rocket_args $args;' . "\n";
+      foreach ($queryStrings as $name => $value) {
 
-        if ($iteration > 1) {
-          $result .= "\t";
-        }
-        $result .= "add_header {$name} \"{$value}\";\n";
+        $result .= 'if ($rocket_args ~ (.*)(?:&|^)' . $value . '=[^&]*(.*)) { ';
+        $result .= 'set $rocket_args $1$2; ';
+        $result .= "}\n";
 
         $iteration++;
       }
+
+      $result .= "\n";
+      $result .= '# Remove & at the beginning (if needed)' . "\n";
+      $result .= 'if ($rocket_args ~ ^&(.*)) { set $rocket_args $1;  }' . "\n\n";
+      $result .= 'set $rocket_args $is_args$rocket_args;' . "\n";
+      $result .= "\n";
+      $result .= '# Do not count arguments if part of caching arguments' . "\n";
+      $result .= 'if ($rocket_args ~ ^\?$) {' . "\n";
+      $result .= "\t" . 'set $rocket_args "";' . "\n";
+      $result .= "\t" . 'set $rocket_is_args "";' . "\n";
+      $result .= '}' . "\n";
+    }
+    else {
+      $result = "# None.\n";
     }
 
     return $result;
-  }*/
+  }
 
   /**
    * Returns generated include for a section headers
