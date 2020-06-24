@@ -148,8 +148,20 @@ class RocketParser {
       $output = str_replace('#!# EXTENSION_MEDIAS #!#', $media_extensions, $output);
       
 
+      // Create main configuration folder if it doesn't exist
+      $main_confd = 'conf.d';
+      if (!is_dir($main_confd)) {
+        mkdir( $main_confd, 0770 );
+      }
+
+      // Create configuration folder 
+      $confd = $main_confd . '/' . $name;
+      if (!is_dir($confd)) {
+        mkdir( $confd, 0770 );
+      }
+
       // Output the file
-      $filename = $name . ".conf";
+      $filename = $confd . '/' . $name . ".conf";
 
       if (!$handle = fopen($filename, 'w')) {
         echo "Cannot open file: {$filename}.\n";
