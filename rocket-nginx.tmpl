@@ -27,10 +27,6 @@ set $rocket_file "";				# Filename to use
 set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
 set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
-set $rocket_hsts 0;					# Is HSTS is off (0) by default. Will be turned on (1) if request is HTTPS
-
-# HSTS value
-set $rocket_hsts_value "#!# HEADER_HSTS #!#";
 
 ###################################################################################################
 # PAGE CACHE
@@ -50,11 +46,6 @@ if ($http_accept_encoding ~ br) {
 if ($https = "on") {
 	set $rocket_https_prefix "-https";
 	set $rocket_hsts 1;
-}
-
-# If HSTS is disabled, unset HSTS set for Rocket-Nginx configuration
-if ($rocket_hsts = "0") {
-	set $rocket_hsts_value "";
 }
 
 # File/URL to return IF we must bypass WordPress
@@ -128,7 +119,6 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header Strict-Transport-Security "$rocket_hsts_value";
 	#!# INCLUDE_GLOBAL #!#
 	#!# INCLUDE_HTTP #!#
 }
@@ -145,7 +135,6 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header Strict-Transport-Security "$rocket_hsts_value";
 	#!# INCLUDE_GLOBAL #!#
 	#!# INCLUDE_HTTP #!#
 }
@@ -154,8 +143,6 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 add_header X-Rocket-Nginx-Reason $rocket_reason;
 add_header X-Rocket-Nginx-File $rocket_file;
-
-# No HSTS header added here. We suppose it's correctly added in the site configuration
 
 
 ###################################################################################################
