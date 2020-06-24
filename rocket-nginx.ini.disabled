@@ -37,71 +37,19 @@ cookie_invalidate[] = "wptouch_switch_toogle"
 cookie_invalidate[] = "comment_author_"
 cookie_invalidate[] = "comment_author_email_"
 
-; HTTP(S) headers
-; Custom headers can be added to the HTTP(S) requests for cached files (pages, posts, custom post types, 
-; etc). Brackets must be added at the end of the http_header variable name.  That way, multiple headers
-; can be added.
-; Format: name "value"
-; Example: http_header[My-Domain] = "mydomain.com"
-
-; HTTP(S) gzipped headers
-; Custom headers can be added to the requests that serve already gzipped cached files (pages, posts, custom 
-; post types,etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple 
-; headers can be added.
-; Format: name "value"
-; Example: gzip_header[Is-Already-Gzipped] = "Yes"
-
-; HTTP(S) non gzipped headers
-; Custom headers can be added to the requests that serve cached files (pages, posts, custom post types, 
-; etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple headers
-; can be added.
-; Format: name "value"
-; Example: nongzip_header[Is-Compressed] = "Yes"
-
-; HTTP Strict Transport Security (HSTS)
-; HTTP Strict Transport Security (HSTS) is an opt-in security enhancement that is specified by a web 
-; application through the use of a special response header. Once a supported browser receives this 
-; header that browser will prevent any communications from being sent over HTTP to the specified 
-; domain and will instead send all communications over HTTPS. It also prevents HTTPS click through 
-; prompts on browsers.
-; Source: https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
-
-; HSTS header value
-; Default value: max-age=31536000; includeSubDomains
-header_hsts = "max-age=31536000; includeSubDomains"
-
-; CSS headers
-; Custom headers can be added to the CSS requests.
-; Brackets must be added at the end of the css_header variable name.  That way, multiple headers
-; can be added.
-; Format: name "value"
-; Example: css_header[Is-CSS] = "Yes"
-
-; JavaScript headers
-; Custom headers can be added to the javascript requests.
-; Brackets must be added at the end of the js_header variable name.  That way, multiple headers
-; can be added.
-; Example: js_header[Is-JavaScript] = "Yes"
-
 ; Medias extensions
 ; Medias extensions for images, icons, fonts and other cachable medias. All extensions are separated
 ; by pipes (|).
-; Default value: ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg
-media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg"
-
-; Medias headers
-; Custom headers can be added to the medias requests for 
-; etc). Brackets must be added at the end of the gzip_header variable name.  That way, multiple headers
-; can be added.
-; Example: media_header[Is-Media] = "Yes"
+; Default value: ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp
+media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp"
 
 
 ; Multiple sections can be created for multiple websites with different configurations.
 ; It is recommended to use the default values as a base for custom validations. A new configuration
 ; file will be created for each new section created.
 
-; In the following example, the 'default' configuration is used and added a custom media_header.
+; In the following example, the 'default' configuration is used and added a custom cookie invalidation.
 ;[example.com : default]
-;media_header[Is-NewSection] = "Yes"
+;cookie_invalidate[] = "my_custome_cookie"
 
 
