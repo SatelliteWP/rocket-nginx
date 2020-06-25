@@ -187,11 +187,11 @@ class RocketParser {
       $result .= "\n";
       $result .= '# Remove & at the beginning (if needed)' . "\n";
       $result .= 'if ($rocket_args ~ ^&(.*)) { set $rocket_args $1;  }' . "\n\n";
-      $result .= 'set $rocket_args $is_args$rocket_args;' . "\n";
+      ##$result .= 'set $rocket_args $is_args$rocket_args;' . "\n";
       $result .= "\n";
       $result .= '# Do not count arguments if part of caching arguments' . "\n";
       $result .= 'if ($rocket_args ~ ^\?$) {' . "\n";
-      $result .= "\t" . 'set $rocket_args "";' . "\n";
+      ##$result .= "\t" . 'set $rocket_args "";' . "\n";
       $result .= "\t" . 'set $rocket_is_args "";' . "\n";
       $result .= '}' . "\n";
     }

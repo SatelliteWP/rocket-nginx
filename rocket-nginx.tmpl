@@ -21,12 +21,14 @@ set $rocket_debug #!# DEBUG #!#;
 ###################################################################################################
 # Do not alter theses values
 #
-set $rocket_bypass 1;				# Should NGINX bypass WordPress and call cache file directly ?
-set $rocket_encryption "";			# Is GZIP accepted by client ?
-set $rocket_file "";				# Filename to use
-set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
-set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
-set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
+set $rocket_bypass          1;      # Should NGINX bypass WordPress and call cache file directly ?
+set $rocket_encryption      "";     # Is GZIP accepted by client ?
+set $rocket_file            "";     # Filename to look for
+set $rocket_is_bypassed     "No";   # Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
+set $rocket_reason          "";     # Reason why cache file was not used. If cache file is used, what file was used
+set $rocket_https_prefix    "";		# HTTPS prefix to use when cached files are using HTTPS
+set $rocket_url_webp        "";     # HTML URL containing WebP
+set $rocket_file_webp       "";     # HTML file on disk containing WebP
 set $rocket_has_query_cache 0;		# Checks if a query string from URL is found from the cached query string
 
 ###################################################################################################
@@ -46,15 +48,28 @@ if ($http_accept_encoding ~ br) {
 # Is SSL request ?
 if ($https = "on") {
 	set $rocket_https_prefix "-https";
-	set $rocket_hsts 1;
 }
+
 
 # File/URL to return IF we must bypass WordPress
 # Desktop: index.html or index-https.html
 # Mobile:  index-mobile.html or index-mobile-https.html
-set $rocket_end "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix.html$rocket_encryption";
-set $rocket_url "/#!# WP_CONTENT_URI #!#$rocket_end";
-set $rocket_file "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
+# WebP:    index-https-webp.html or index-mobile-https.html
+set $rocket_file "index$rocket_https_prefix.html$rocket_encryption";
+set $rocket_file_webp "index$rocket_https_prefix-webp.html$rocket_encryption";
+
+set $rocket_pre_url "/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/";
+set $rocket_pre_file "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/";
+
+set $rocket_url "$rocket_pre_url$rocket_file";
+set $rocket_file "$rocket_pre_file$rocket_file";
+
+# Request supports WebP ?
+if ($http_accept ~* "webp") {
+	set $rocket_url_webp "$rocket_pre_url$rocket_file_webp";
+	set $rocket_file_webp "$rocket_pre_file$rocket_file_webp";
+}
+
 set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
 
 
@@ -96,6 +111,13 @@ if ($http_cookie ~* "(#!# COOKIE_INVALIDATE #!#)") {
 if (-f "$rocket_mobile_detection") {
 	set $rocket_bypass 0;
 	set $rocket_reason "Specific mobile cache activated";	
+}
+
+# If WebP is active and cache file was generated, use this
+# instead of the default file
+if (-f "$rocket_file_webp") {
+	set $rocket_file "$rocket_file_webp";
+	set $rocket_url  "$rocket_url_webp";
 }
 
 # Do not bypass if the cached file does not exist
