@@ -146,7 +146,7 @@ class RocketParser {
       }
 
       // Output the file
-      $filename = $confd . '/' . $name . ".conf";
+      $filename = $main_confd . '/' . $name . ".conf";
 
       if (!$handle = fopen($filename, 'w')) {
         echo "Cannot open file: {$filename}.\n";
@@ -162,7 +162,7 @@ class RocketParser {
     }
   }
 
-/**
+  /**
    * Returns generated query strings statement to ignore
    * @param $queryStrings array Query strings to ignore
    * 
