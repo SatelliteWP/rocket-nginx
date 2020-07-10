@@ -31,6 +31,7 @@ set $rocket_https_prefix    "";		# HTTPS prefix to use when cached files are usi
 set $rocket_url_webp        "";     # HTML URL containing WebP
 set $rocket_file_webp       "";     # HTML file on disk containing WebP
 set $rocket_has_query_cache 0;		# Checks if a query string from URL is found from the cached query string
+set $rocket_is_https 0;				# Checks if the request is HTTPS
 
 ###################################################################################################
 # PAGE CACHE
@@ -46,8 +47,16 @@ if ($http_accept_encoding ~ br) {
 	set $rocket_encryption "";
 }
 
-# Is SSL request ?
-if ($https = "on") {
+# Is HTTPS request ?
+if ($https = "on") { set $rocket_is_https 1; }
+if ($http_x_forwarded_proto = "https") { set $rocket_is_https 1; }
+if ($http_front_end_https = "on") { set $rocket_is_https 1; }
+if ($http_x_forwarded_protocol = "https") { set $rocket_is_https 1; }
+if ($http_x_forwarded_ssl = "on") { set $rocket_is_https 1; }
+if ($http_x_url_scheme = "https") { set $rocket_is_https 1; }
+if ($http_forwarded ~ /proto=https/) { set $rocket_is_https 1; }
+
+if ($rocket_is_https = "1") {
 	set $rocket_https_prefix "-https";
 }
 
