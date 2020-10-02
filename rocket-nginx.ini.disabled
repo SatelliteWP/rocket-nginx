@@ -65,7 +65,7 @@ cookie_invalidate[] = "comment_author_email_"
 
 ; HSTS header value
 ; Default value: max-age=31536000; includeSubDomains
-header_hsts = "max-age=31536000; includeSubDomains"
+; header_hsts = "max-age=31536000; includeSubDomains"
 
 ; CSS headers
 ; Custom headers can be added to the CSS requests.
