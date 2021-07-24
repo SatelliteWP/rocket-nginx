@@ -14,7 +14,7 @@ debug = false
 
 ; WP-Content folder
 ; Default value: wp-content
-wp_content_folder = wp-content
+wp_content_folder = blog/wp-content
 
 ; HTML Cache-Control
 ; Cache control header to use for html files
@@ -102,3 +102,21 @@ media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg"
 ;media_header[Is-NewSection] = "Yes"
 
 
+
+; custom js_cache_ttl
+js_cache_ttl = "90d"
+
+
+
+; custom css_cache_ttl
+css_cache_ttl = "90d"
+
+
+; custom media_cache_ttl
+media_cache_ttl = "365d"
+
+
+; If you want to check mobile_cache_activated, set this parameter "true".
+; The default value is false.
+; mobile_cache_activate = false
+mobile_cache_activate = false

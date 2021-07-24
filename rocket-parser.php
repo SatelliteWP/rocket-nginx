@@ -144,6 +144,37 @@ class RocketParser {
       }
       $output = str_replace('#!# EXTENSION_MEDIAS #!#', $media_extensions, $output);
       
+      // JS CACHE TTL
+      $js_cache_ttl = '';
+      if (isset($section['js_cache_ttl']) && !empty($section['js_cache_ttl'])) {
+        $js_cache_ttl = $section['js_cache_ttl'];
+      }
+      $output = str_replace('#!# JS_CACHE_TTL #!#', $js_cache_ttl, $output);
+
+      // CSS CACHE TTL
+      $css_cache_ttl = '';
+      if (isset($section['css_cache_ttl']) && !empty($section['css_cache_ttl'])) {
+        $css_cache_ttl = $section['css_cache_ttl'];
+      }
+      $output = str_replace('#!# CSS_CACHE_TTL #!#', $css_cache_ttl, $output);
+
+      // MEDIA CACHE TTL
+      if (isset($section['media_cache_ttl']) && !empty($section['media_cache_ttl'])) {
+        $media_cache_ttl = $section['media_cache_ttl'];
+      }
+      $output = str_replace('#!# MEDIA_CACHE_TTL #!#', $media_cache_ttl, $output);
+
+      // CHECK MOBILE CACHE
+      $mobile_cache_activate_string= "set \$rocket_mobile_detection \"\$document_root/$wp_content_folder/cache/wp-rocket/\$http_host/\$request_uri/.mobile-active\";";
+      $mobile_cache_activate = false;
+      if (isset($section['mobile_cache_activate']) && !empty($section['mobile_cache_activate'])) {
+        $mobile_cache_activate = $section['mobile_cache_activate'];
+      }
+      if ($mobile_cache_activate === '1') {
+        $output = str_replace('#!# MOBILE_CACHE_ACTIVATE #!#', $mobile_cache_activate_string, $output);
+      }else{
+        $output = str_replace('#!# MOBILE_CACHE_ACTIVATE #!#', '#', $output);
+      }
 
       // Output the file
       $filename = $name . ".conf";

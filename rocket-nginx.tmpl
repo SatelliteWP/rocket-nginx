@@ -28,7 +28,7 @@ set $rocket_is_bypassed "No";		# Header text added to check if the bypass worked
 set $rocket_reason "";				# Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix "";		# HTTPS prefix to use when cached files are using HTTPS
 set $rocket_hsts 0;					# Is HSTS is off (0) by default. Will be turned on (1) if request is HTTPS
-
+set $rocket_mobile_detection "";
 # HSTS value
 set $rocket_hsts_value "#!# HEADER_HSTS #!#";
 
@@ -63,7 +63,7 @@ if ($rocket_hsts = "0") {
 set $rocket_end "/cache/wp-rocket/$http_host/$request_uri/index$rocket_https_prefix.html$rocket_encryption";
 set $rocket_url "/#!# WP_CONTENT_URI #!#$rocket_end";
 set $rocket_file "$document_root/#!# WP_CONTENT_URI #!#$rocket_end";
-set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
+#!# MOBILE_CACHE_ACTIVATE #!#
 
 
 # Do not bypass if it's a POST request
@@ -164,7 +164,7 @@ add_header X-Rocket-Nginx-File $rocket_file;
 location ~* \.css$ {
 	etag on;
 	gzip_vary on;
-	expires 30d;
+	expires #!# CSS_CACHE_TTL #!#;
 	#!# HEADER_CSS #!#
 }
 
@@ -175,7 +175,7 @@ location ~* \.css$ {
 location ~* \.js$ {
 	etag on;
 	gzip_vary on;
-	expires 30d;
+	expires #!# JS_CACHE_TTL #!#;
 	#!# HEADER_JS #!#
 }
 
@@ -185,6 +185,6 @@ location ~* \.js$ {
 #
 location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
 	etag on;
-	expires 30d;
+	expires #!# MEDIA_CACHE_TTL #!#;
 	#!# HEADER_MEDIAS #!#
 }
