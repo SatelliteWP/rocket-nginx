@@ -97,8 +97,8 @@ You can add a new section based on the default configuration like this:
 # This creates the new section and will generate a new configuration
 [example.com : default]
 
-# This will add a new header named "Is-NewSection" with the value "Yes" to the medias section
-media_header[Is-NewSection] = "Yes"
+# This will add a value to invalidate the cache with a cookie
+cookie_invalidate[] = "my_custom_cookie"
 ```
 
 Once you edit the ini file, you must regenerate your Nginx configuration file by running the parser:
@@ -179,7 +179,7 @@ We suggest that you save your previous configuration and start over. Take this o
 
 **<a name='faq_v3'>What is new in version 3.x?</a>**
 
-Many thing!
+Many things!
 
 - Query strings to cache are supported via the ini file. See the WP Rocket [Cache query strings](https://docs.wp-rocket.me/article/971-caching-query-strings?utm_source=rocket-nginx) documentation for configuration.
 - Query string to ignore are supported. See the WP Rocket [Cache query strings to ignore](https://docs.wp-rocket.me/article/971-caching-query-strings?utm_source=rocket-nginx#ignored-parameters) documentation for configuration.
