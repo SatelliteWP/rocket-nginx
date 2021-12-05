@@ -27,19 +27,20 @@ As the configuration's goal is to serve cached files directly without having to 
 In order to make sure your scheduled tasks run when they should, it is strongly suggested to disable WordPress cron jobs and create a real cron job.
 
 To disable WordPress cron job, add the following line to your `wp-config.php`:
-`define('DISABLE_WP_CRON', true);`
+
+    define('DISABLE_WP_CRON', true);
 
 Then, manually a cron job every 15 minutes (it should be enough for most websites):
 
-`*/15 * * * * wget -q -O - http://www.website.com/wp-cron.php?doing_wp_cron &>/dev/null`
+    */15 * * * * wget -q -O - http://www.website.com/wp-cron.php?doing_wp_cron &>/dev/null
 
 or
 
-`*/15 * * * * curl http://www.website.com/wp-cron.php?doing_wp_cron &>/dev/null`
+    */15 * * * * curl http://www.website.com/wp-cron.php?doing_wp_cron &>/dev/null
 
 or
 
-`*/15 * * * * cd /home/user/public_html; php wp-cron.php &>/dev/null`
+    */15 * * * * cd /home/user/public_html; php wp-cron.php &>/dev/null
 
 Make sure you test that your tasks still run after this change!
 
@@ -47,7 +48,7 @@ Make sure you test that your tasks still run after this change!
 
 In order to use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/satellitewp/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
 
-Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP-Rocket. That said, you can generate as many configuration files as needed.
+Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP Rocket. You can generate as many configuration files as needed.
 
 You can create a folder `rocket-nginx` directory in your Nginx configuration directory. If you are using Ubuntu, your Nginx configuration (nginx.conf) should be found in: `/etc/nginx/`.
 
@@ -65,7 +66,7 @@ php rocket-parser.php
 ```
 This will generate the `default.conf` configuration that can be included for all websites.  If you need to alter the default configuration, you can edit the ini file and add another section at the bottom of the file.
 
-Then, in your configuration file, you must [include](https://nginx.org/en/docs/ngx_core_module.html#include) the configuration. If your websites configurations are in `/etc/nginx/sites-available`, you need to alter your configuration:
+Then, in your Nginx configuration file, you must [include](https://nginx.org/en/docs/ngx_core_module.html#include) the generated configuration. If your websites configurations are in `/etc/nginx/sites-available`, you need to alter your configuration:
 
 ```
 server {
@@ -118,6 +119,33 @@ Finally, **each time** you generate (or regenerate) the configurations files, yo
 
     `service nginx reload`
 
+Starting at version 3.0, a `conf.d`folder is created. For each different profile you create, a subfolder is created inside that folder. In it, you can create files that will be included within the generated configuration file.
+
+You can include configuration files at different times.
+
+### Before Rocket-Nginx starts
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `start.*.conf`.
+
+### Globally in every section
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `global.*.conf`.
+
+### In the HTTP section
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `http.*.conf`.
+
+### In the CSS section
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `css.*.conf`.
+
+### In the JS section
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `js.*.conf`.
+
+### In the Media section
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `media.*.conf`.
 
 ## <a name='debug'>Debug</a>
 You may want to check if your files are served directly by Nginx and not calling any PHP. To do that, open the `rocket-nginx.ini` file and change the debug value from:
@@ -128,12 +156,11 @@ To:
 
 `debug = true`
 
-The following header is present no matter if debug is set to 0 or 1:
-  * **X-Rocket-Nginx-Serving-Static**: Did the configuration served the cached file directly (did it bypass WordPress): Yes or No.
-
+The following header is present no matter if debug is set to true or false:
+  * **X-Rocket-Nginx-Serving-Static**: Did the configuration served the cached file directly : HIT, MISS, BYPASS.
 This will add the following headers to your response request:
-  * **X-Rocket-Nginx-Reason**: If Bypass is set to "No", what is the reason for calling WordPress.  If "Yes", what is the file used (URL).
-  * **X-Rocket-Nginx-File**: If "Yes", what is the file used (path on disk).
+  * **X-Rocket-Nginx-Reason**: If serving static is not set to "HIT", what is the reason for calling WordPress.  If "HIT", what is the file used (URL).
+  * **X-Rocket-Nginx-File**: If "HIT", what is the file used (path on disk).
 
 
 Reasons for not serving a cached file:
@@ -145,6 +172,20 @@ Reasons for not serving a cached file:
   * **File not cached**: No cached file was found for that request.
 
 ## <a name='faq'>FAQ</a>
+
+**<a name='faq_upgrade'>How do I upgrade from version 1 or 2 to version 3?</a>**
+
+We suggest that you save your previous configuration and start over. Take this opportunity to review everything as many things have changed. Officially, version 3.x is not backward-compatible with previous versions. Starging from scratch should not take more than 15 minutes.
+
+**<a name='faq_v3'>What is new in version 3.x?</a>**
+
+Many thing!
+
+- Query strings to cache are supported via the ini file. See the WP Rocket [Cache query strings](https://docs.wp-rocket.me/article/971-caching-query-strings?utm_source=rocket-nginx) documentation for configuration.
+- Query string to ignore are supported. See the WP Rocket [Cache query strings to ignore](https://docs.wp-rocket.me/article/971-caching-query-strings?utm_source=rocket-nginx#ignored-parameters) documentation for configuration.
+- Default HSTS value was removed.
+- Custom configurations can be included in every sections
+- Custom expiration are supported for CSS, JS and medias
 
 **<a name='faq_benchmark'>Do you have any benchmark about the project ?</a>**
 
