@@ -8,8 +8,8 @@
 # Maintainer: SatelliteWP.com
 # URL: https://github.com/satellitewp/rocket-nginx
 #
-# Tested with WP-Rocket version: 3.6.4
-# Tested with NGINX: 1.19.2 (mainline)
+# Tested with WP-Rocket version: 3.10.4
+# Tested with NGINX: 1.21.4 (mainline)
 #
 # Version 3.0.0
 #
@@ -25,18 +25,27 @@ set $rocket_debug #!# DEBUG #!#;
 set $rocket_bypass          1;      # Should NGINX bypass WordPress and call cache file directly ?
 set $rocket_encryption      "";     # Is GZIP accepted by client ?
 set $rocket_file            "";     # Filename to look for
-set $rocket_is_bypassed     "No";   # Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
+set $rocket_is_bypassed     "MISS"; # Header text added to check if the bypass worked or not. Header: X-Rocket-Nginx-Serving-Static
 set $rocket_reason          "";     # Reason why cache file was not used. If cache file is used, what file was used
 set $rocket_https_prefix    "";		# HTTPS prefix to use when cached files are using HTTPS
-set $rocket_url_webp        "";     # HTML URL containing WebP
-set $rocket_file_webp       "";     # HTML file on disk containing WebP
 set $rocket_has_query_cache 0;		# Checks if a query string from URL is found from the cached query string
 set $rocket_is_https        0;		# Checks if the request is HTTPS
 set $rocket_support_webp    0;		# Checks if the request supports WebP
+set $rocket_dynamic         "";		# Dynamic value to add to cached filename
 
 ###################################################################################################
 # PAGE CACHE
 #
+
+#!# INCLUDE_START #!#
+
+# Define Rocket-Nginx $is_args
+set $rocket_is_args $is_args;
+
+set $rocket_uri_path "";
+if ($request_uri ~ "^([^?]*)(\?.*)?$") {
+	set $rocket_uri_path $1;
+}
 
 # Is GZIP accepted by client ?
 if ($http_accept_encoding ~ gzip) {
@@ -69,37 +78,26 @@ if ($http_accept ~* "webp") {
 # Set mobile detection file path
 set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
 
+# Query strings to ignore
+#!# QUERY_STRING_IGNORE #!#
+
+# Query string to cache
+#!# QUERY_STRING_CACHE #!#
+
 # File/URL to return IF we must bypass WordPress
 # Desktop: index.html
 # Gzip:    index.html_gzip
 # HTTPS:   index-https.html
 # Mobile:  index-mobile-https.html
-# WebP:    index-https-webp.html
-set $rocket_test_file "";
 
-set $rocket_file "index$rocket_https_prefix";
-#set $rocket_file_webp "index$rocket_https_prefix-webp.html";
+set $rocket_file_start "index$rocket_https_prefix";
 
-set $rocket_pre_url "/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$uri/$rocket_args/";
-set $rocket_pre_file "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$uri/$rocket_args/";
+set $rocket_pre_url "/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$rocket_uri_path/$rocket_args/";
+set $rocket_pre_file "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$rocket_uri_path/$rocket_args/";
 
 # Standard cache file format
-set $rocket_url "$rocket_pre_url$rocket_file.html";
-set $rocket_file "$rocket_pre_file$rocket_file.html";
-
-# Check if WebP cache file exists
-if (-f "$rocket_pre_file$rocket_file-webp.html") {
-	$rocket_test_file "$rocket_file-webp.html";
-	set $rocket_support_webp "$rocket_support_webp1";
-}
-
-if ($rocket_support_webp = "11") {
-	set $rocket_url "$rocket_pre_url$rocket_test_file";
-	set $rocket_file "$rocket_pre_file$rocket_test_file";	
-}
-
-#set $rocket_url "$rocket_pre_url$rocket_file";
-#set $rocket_file "$rocket_pre_file$rocket_file";
+set $rocket_url "$rocket_pre_url$rocket_file_start$rocket_dynamic.html";
+set $rocket_file "$rocket_pre_file$rocket_file_start$rocket_dynamic.html";
 
 # Check if gzip version cached file is available
 if (-f "$rocket_file$rocket_encryption") {
@@ -107,34 +105,31 @@ if (-f "$rocket_file$rocket_encryption") {
 	set $rocket_url  "$rocket_url$rocket_encryption";
 }
 
+# Do not bypass if the cached file does not exist
+if (!-f "$rocket_file") {
+	set $rocket_bypass 0;
+	set $rocket_is_bypassed "MISS";
+	set $rocket_reason "File not cached";
+}
 
 # Do not bypass if it's a POST request
 if ($request_method = POST) {
 	set $rocket_bypass 0;
+	set $rocket_is_bypassed "BYPASS";
 	set $rocket_reason "POST request";
 }
 
-# Define Rocket-Nginx $is_args
-set $rocket_is_args $is_args;
-
-# Query strings to ignore
-#!# QUERY_STRING_IGNORE #!#
-
-# Query string to cache
-#!# QUERY_STRING_CACHE #!#
-
-# For dev purposes only (TO REMOVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
-add_header rocket-args $rocket_args;
-
 # Do not bypass if arguments are found (e.g. ?page=2)
-if ($is_args) {
+if ($rocket_is_args) {
 	set $rocket_bypass 0;
+	set $rocket_is_bypassed "BYPASS";
 	set $rocket_reason "Arguments found";
 }
 
 # Do not bypass if the site is in maintenance mode
 if (-f "$document_root/.maintenance") {
 	set $rocket_bypass 0;
+	set $rocket_is_bypassed "BYPASS";
 	set $rocket_reason "Maintenance mode";
 }
 
@@ -143,30 +138,19 @@ if (-f "$document_root/.maintenance") {
 # wp-postpass_[hash] : When a protected post requires a password, this cookie is created.
 if ($http_cookie ~* "(#!# COOKIE_INVALIDATE #!#)") {
 	set $rocket_bypass 0;
+	set $rocket_is_bypassed "BYPASS";
 	set $rocket_reason "Cookie";
 }
 
 if (-f "$rocket_mobile_detection") {
 	set $rocket_bypass 0;
+	set $rocket_is_bypassed "BYPASS";
 	set $rocket_reason "Specific mobile cache activated";	
-}
-
-# If WebP is active and cache file was generated, use this
-# instead of the default file
-if (-f "$rocket_file_webp") {
-	set $rocket_file "$rocket_file_webp";
-	set $rocket_url  "$rocket_url_webp";
-}
-
-# Do not bypass if the cached file does not exist
-if (!-f "$rocket_file") {
-	set $rocket_bypass 0;
-	set $rocket_reason "File not cached";
 }
 
 # If the bypass token is still on, let's bypass WordPress with the cached URL
 if ($rocket_bypass = 1) {
-	set $rocket_is_bypassed "Yes";
+	set $rocket_is_bypassed "HIT";
 	set $rocket_reason "$rocket_url";
 }
 
@@ -213,6 +197,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 add_header X-Rocket-Nginx-Reason $rocket_reason;
 add_header X-Rocket-Nginx-File $rocket_file;
+#!# INCLUDE_GLOBAL #!#
 
 
 ###################################################################################################
@@ -221,7 +206,7 @@ add_header X-Rocket-Nginx-File $rocket_file;
 location ~* \.css$ {
 	etag on;
 	gzip_vary on;
-	expires 30d;
+	expires #!# CSS_EXPIRATION #!#;
 	#!# INCLUDE_GLOBAL #!#
 	#!# INCLUDE_CSS #!#
 }
@@ -233,7 +218,7 @@ location ~* \.css$ {
 location ~* \.js$ {
 	etag on;
 	gzip_vary on;
-	expires 30d;
+	expires #!# JS_EXPIRATION #!#;
 	#!# INCLUDE_GLOBAL #!#
 	#!# INCLUDE_JS #!#
 }
@@ -244,7 +229,7 @@ location ~* \.js$ {
 #
 location ~* \.(#!# MEDIA_EXTENSIONS #!#)$ {
 	etag on;
-	expires 30d;
+	expires #!# MEDIA_EXPIRATION #!#;
 	#!# INCLUDE_GLOBAL #!#
 	#!# INCLUDE_MEDIA #!#
 }
