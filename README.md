@@ -177,6 +177,7 @@ Reasons for not serving a cached file:
 
 We suggest that you save your previous configuration and start over. Take this opportunity to review everything as many things have changed. Officially, version 3.x is not backward-compatible with previous versions. Starging from scratch should not take more than 15 minutes.
 
+
 **<a name='faq_v3'>What is new in version 3.x?</a>**
 
 Many things!
@@ -187,13 +188,16 @@ Many things!
 - Custom configurations can be included in every sections
 - Custom expiration are supported for CSS, JS and medias
 
+
 **<a name='faq_benchmark'>Do you have any benchmark about the project ?</a>**
 
 No. People love benchmark as much as they hate them. All benchmarks have people claiming that X or Y or Z could have been done to improve the outcome.  In this project, the benchmark would depend on how many plugins you have that are affecting the page even if the output is in cache (e.g. WP-Rocket executes PHP even when a file is in cache). What we can say though is that you will go from **NGINX &#8594; PHP-FPM &#8594; PHP &#8594; Static file** to **NGINX &#8594; Static file**. In other words, you are serving the static file directly from NGINX instead of passing the request to FPM then to PHP (for WP-Rocket... at least) before serving the static file.
 
+
 **<a name='faq_ssl'>Will Rocket-Nginx work if my website uses a SSL certificate (https) ?</a>**
 
 Yes! Rocket-Nginx will detect if the request was made through HTTP or HTTPS and serve the right file depending on the request type.  Both protocols are handled automagically since version 1.0.
+
 
 ## <a name='license'>License</a>
 Released under the MIT License. See the license file for details.
