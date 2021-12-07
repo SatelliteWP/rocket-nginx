@@ -28,7 +28,7 @@ In order to make sure your scheduled tasks run when they should, it is strongly 
 
 To disable WordPress cron job, add the following line to your `wp-config.php`:
 
-    define('DISABLE_WP_CRON', true);
+    define( 'DISABLE_WP_CRON', true );
 
 Then, manually a cron job every 15 minutes (it should be enough for most websites):
 
@@ -187,6 +187,7 @@ Many things!
 - Default HSTS value was removed.
 - Custom configurations can be included in every sections
 - Custom expiration are supported for CSS, JS and medias
+- Allowing adding headers from the config file was removed.
 
 
 **<a name='faq_benchmark'>Do you have any benchmark about the project ?</a>**
