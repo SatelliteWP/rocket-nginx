@@ -73,7 +73,7 @@ server {
   ...
   
   # Rocket-Nginx configuration
-  include rocket-nginx/default.conf;
+  include rocket-nginx/cond.d/default.conf;
   
   ...
 }
