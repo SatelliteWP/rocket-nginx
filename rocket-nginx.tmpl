@@ -81,6 +81,10 @@ set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-roc
 # Query strings to ignore
 #!# QUERY_STRING_IGNORE #!#
 
+if ($rocket_args = "") {
+	set $rocket_is_args "";
+}
+
 # Query string to cache
 #!# QUERY_STRING_CACHE #!#
 
