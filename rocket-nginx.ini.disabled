@@ -71,6 +71,12 @@ query_string_ignore[] = "cn-reloaded"
 ; Default value: ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp
 media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp"
 
+; Cache expiration delay
+; Cache expiration delay for CSS, JS and media files
+; Default value: 30d
+css_expiration = "30d"
+js_expiration = "30d"
+media_expiration = "30d"
 
 ; Multiple sections can be created for multiple websites with different configurations.
 ; It is recommended to use the default values as a base for custom validations. A new configuration
