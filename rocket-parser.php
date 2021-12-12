@@ -126,6 +126,10 @@ class RocketParser {
 			}
 			$output = str_replace('#!# MEDIA_EXPIRATION #!#', $media_expiration, $output);
 
+			// Start include
+			$include_start = $this->getGeneratedInclude($name, 'start');
+			$output = str_replace('#!# INCLUDE_START #!#', $include_start, $output);
+
 			// Global include
 			$include_global = $this->getGeneratedInclude($name, 'global');
 			$output = str_replace('#!# INCLUDE_GLOBAL #!#', $include_global, $output);
