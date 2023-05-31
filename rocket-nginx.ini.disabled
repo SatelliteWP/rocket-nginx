@@ -4,7 +4,7 @@
 ;
 ; Original author: Maxime Jobin
 ; URL: https://www.maximejobin.com
-; Version: 3.0.0
+; Version: 3.0.1
 
 ; Default configuration
 [default]
@@ -42,22 +42,41 @@ cookie_invalidate[] = "comment_author_email_"
 ; for JavaScript and do not influence the output provided by the server. List all query strings that won't
 ; invalidate the use of a cached page.
 ; Reference: https://docs.wp-rocket.me/article/971-caching-query-strings
+; Google Analytics and Ads:
 query_string_ignore[] = "utm_source"
 query_string_ignore[] = "utm_campaign"
 query_string_ignore[] = "utm_medium"
 query_string_ignore[] = "utm_expid"
 query_string_ignore[] = "utm_term"
 query_string_ignore[] = "utm_content"
+query_string_ignore[] = "_ga"
+query_string_ignore[] = "gclid"
+query_string_ignore[] = "campaignid"
+query_string_ignore[] = "adgroupid"
+query_string_ignore[] = "adid"
+query_string_ignore[] = "gbraid"
+query_string_ignore[] = "wbraid"
+; Google DoubleClick
+query_string_ignore[] = "gclsrc"
+; Adobe Advertising Cloud
+query_string_ignore[] = "ef_id"
+; Facebook
 query_string_ignore[] = "fb_action_ids"
 query_string_ignore[] = "fb_action_types"
 query_string_ignore[] = "fb_source"
 query_string_ignore[] = "fbclid"
-query_string_ignore[] = "_ga"
-query_string_ignore[] = "gclid"
+; Mailchimp
+query_string_ignore[] = "mc_cid"
+query_string_ignore[] = "mc_eid"
+; Klavyo
+query_string_ignore[] = "_ke"
+; Other
 query_string_ignore[] = "age-verified"
 query_string_ignore[] = "ao_noptimize"
 query_string_ignore[] = "usqp"
 query_string_ignore[] = "cn-reloaded"
+query_string_ignore[] = "sscid"
+query_string_ignore[] = "msclkid"
 
 ; Query strings to cache
 ; Query strings invalidate the caching process made by Rocket-Nginx. Some strings may need to be cached.
