@@ -34,18 +34,18 @@ class RocketParser {
 			
 			// create namespace if necessary
 			if(!isset($config[$name])) {
-			$config[$name] = array();
+				$config[$name] = array();
 			}
 			
 			// inherit base namespace
 			if(isset($data[$extends])) {
-			foreach($data[$extends] as $prop => $val) {
-				$config[$name][$prop] = $val;
-			}
+				foreach($data[$extends] as $prop => $val) {
+					$config[$name][$prop] = $val;
+				}
 			}
 			// overwrite / set current namespace values
 			foreach($properties as $prop => $val) {
-			$config[$name][$prop] = $val;
+				$config[$name][$prop] = $val;
 			}
 		}
 
@@ -201,12 +201,11 @@ class RocketParser {
 
 			$result .= 'set $rocket_args $args;' . "\n";
 			foreach ($queryStrings as $name => $value) {
+				$result .= 'if ($rocket_args ~ (.*)(?:&|^)' . $value . '=[^&]*(.*)) { ';
+				$result .= 'set $rocket_args $1$2; ';
+				$result .= "}\n";
 
-			$result .= 'if ($rocket_args ~ (.*)(?:&|^)' . $value . '=[^&]*(.*)) { ';
-			$result .= 'set $rocket_args $1$2; ';
-			$result .= "}\n";
-
-			$iteration++;
+				$iteration++;
 			}
 
 			$result .= "\n";
@@ -240,12 +239,11 @@ class RocketParser {
 
 			$result .= 'set $rocket_args_tmp $rocket_args;' . "\n";
 			foreach ($queryStrings as $name => $value) {
+				$result .= 'if ($rocket_args_tmp ~ (.*)(?:&|^)' . $value . '=[^&]*(.*)) { ';
+				$result .= 'set $rocket_has_query_cache 1; ';
+				$result .= "}\n";
 
-			$result .= 'if ($rocket_args_tmp ~ (.*)(?:&|^)' . $value . '=[^&]*(.*)) { ';
-			$result .= 'set $rocket_has_query_cache 1; ';
-			$result .= "}\n";
-
-			$iteration++;
+				$iteration++;
 			}
 
 			$result .= "\n";
@@ -296,7 +294,7 @@ class RocketParser {
 		if (file_exists($this->configFile) === false) {
 			die("Error: the file 'rocket-nginx.ini' could not be found to generate the configuration. " .
 			"You must rename the orginal 'rocket-nginx.ini.disabled' file to 'rocket-nginx.ini' and run this script again.");
-		}    
+		}
 	}
 
 	/**
