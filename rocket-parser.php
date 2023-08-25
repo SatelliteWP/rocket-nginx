@@ -11,7 +11,7 @@
 * Original author: Maxime Jobin
 * URL: https://www.maximejobin.com
 *
-* Version 3.0.1
+* Version 3.0.2
 *
 **************************************************************************************************/
 
