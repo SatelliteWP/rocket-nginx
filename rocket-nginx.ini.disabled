@@ -4,7 +4,7 @@
 ;
 ; Original author: Maxime Jobin
 ; URL: https://www.maximejobin.com
-; Version: 3.0.1
+; Version: 3.0.2
 
 ; Default configuration
 [default]
@@ -49,6 +49,10 @@ query_string_ignore[] = "utm_medium"
 query_string_ignore[] = "utm_expid"
 query_string_ignore[] = "utm_term"
 query_string_ignore[] = "utm_content"
+query_string_ignore[] = "utm_id"
+query_string_ignore[] = "utm_source_platform"
+query_string_ignore[] = "utm_creative_format"
+query_string_ignore[] = "utm_marketing_tactic"
 query_string_ignore[] = "_ga"
 query_string_ignore[] = "gclid"
 query_string_ignore[] = "campaignid"
@@ -68,6 +72,13 @@ query_string_ignore[] = "fbclid"
 ; Mailchimp
 query_string_ignore[] = "mc_cid"
 query_string_ignore[] = "mc_eid"
+; Matomo
+query_string_ignore[] = "mtm_source"
+query_string_ignore[] = "mtm_medium"
+query_string_ignore[] = "mtm_campaign"
+query_string_ignore[] = "mtm_keyword"
+query_string_ignore[] = "mtm_cid"
+query_string_ignore[] = "mtm_content"
 ; Klavyo
 query_string_ignore[] = "_ke"
 ; Other
