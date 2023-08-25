@@ -14,7 +14,7 @@ This project is sponsored by SatelliteWP, a [WordPress maintenance service](http
   1. [Installation](#installation)
   1. [Configuration](#configuration)
   1. [Debug](#debug)
-  1. [FAQ](#css)
+  1. [FAQ](#faq)
   1. [License](#license)
 
 ## <a name='contributors'>Contributors</a>
@@ -172,6 +172,10 @@ Reasons for not serving a cached file:
   * **File not cached**: No cached file was found for that request.
 
 ## <a name='faq'>FAQ</a>
+
+**<a name='faq_bfcache'>Is Rocket-Nginx compatible with BF Cache (Back/forward cache)?</a>**
+
+Yes! If your website does not display sensitive data and is a good match for Back/forward caching, you must must edit your Rocket-Nginx configuration by following the [BF Cache discussion](https://github.com/SatelliteWP/rocket-nginx/issues/197#issuecomment-1693584964) in the issues.
 
 **<a name='faq_upgrade'>How do I upgrade from version 1 or 2 to version 3?</a>**
 
