@@ -1,11 +1,16 @@
 Rocket-Nginx
 ============
 
-Rocket-Nginx is a [Nginx](https://nginx.org) configuration for the [WordPress](https://wordpress.org) cache plugin [WP-Rocket](https://wp-rocket.me). It enables Nginx to serve directly previously cached files without calling WordPress or any PHP. It also adds headers to cache CSS, JS and medias in order to leverage browser's cache by reducing request to your web server.
+Rocket-Nginx is a [Nginx](https://nginx.org) configuration for the [WordPress](https://wordpress.org) cache plugin [WP Rocket](https://wp-rocket.me). It enables Nginx to serve directly previously cached files without calling WordPress or any PHP. It also adds headers to cache CSS, JS and medias in order to leverage browser's cache by reducing request to your web server.
+
+**You might ask yourself: "How good is this configuration?".**
+
+Let's just say that WP Rocket themselves use it on their website to make it even faster! 
 
 This project is sponsored by SatelliteWP, a [WordPress maintenance service](https://www.satellitewp.com/en) located near Montreal, Canada. Our service is offered in both English and French. SatelliteWP fait de l'[entretien de sites WordPress](https://www.satellitewp.com/?utm_source=rocket-nginx).
 
 [![SatelliteWP - WordPress Maintenance](https://www.satellitewp.com/wp-content/signature/logo.png "SatelliteWP - WordPress Maintenance")](https://www.satellitewp.com/en?utm_source=rocket-nginx)
+
 
 ## <a name='toc'>Table of Contents</a>
 
@@ -168,7 +173,7 @@ Reasons for not serving a cached file:
   * **Arguments found**: One or more argument was found in the request (e.g. ?page=2).
   * **Maintenance mode**: The .maintenance file was found. Therefore, let's WordPress handle what should be displayed.
   * **Cookie**: A specific cookie was found and tells to not serve the cached page (e.g. user is logged in, post with password).
-  * **Specific mobile cache activated**: If you activated specific cache (one for mobile and one for desktop) in WP-Rocket, HTML files (pages, posts, ...) won't be served directly because Rocket-Nginx cannot know if the request was made by mobile or desktop device.
+  * **Specific mobile cache activated**: If you activated specific cache (one for mobile and one for desktop) in WP Rocket, HTML files (pages, posts, ...) won't be served directly because Rocket-Nginx cannot know if the request was made by mobile or desktop device.
   * **File not cached**: No cached file was found for that request.
 
 ## <a name='faq'>FAQ</a>
@@ -196,7 +201,7 @@ Many things!
 
 **<a name='faq_benchmark'>Do you have any benchmark about the project ?</a>**
 
-No. People love benchmark as much as they hate them. All benchmarks have people claiming that X or Y or Z could have been done to improve the outcome.  In this project, the benchmark would depend on how many plugins you have that are affecting the page even if the output is in cache (e.g. WP-Rocket executes PHP even when a file is in cache). What we can say though is that you will go from **NGINX &#8594; PHP-FPM &#8594; PHP &#8594; Static file** to **NGINX &#8594; Static file**. In other words, you are serving the static file directly from NGINX instead of passing the request to FPM then to PHP (for WP-Rocket... at least) before serving the static file.
+No. People love benchmark as much as they hate them. All benchmarks have people claiming that X or Y or Z could have been done to improve the outcome.  In this project, the benchmark would depend on how many plugins you have that are affecting the page even if the output is in cache (e.g. WP Rocket executes PHP even when a file is in cache). What we can say though is that you will go from **NGINX &#8594; PHP-FPM &#8594; PHP &#8594; Static file** to **NGINX &#8594; Static file**. In other words, you are serving the static file directly from NGINX instead of passing the request to FPM then to PHP (for WP Rocket... at least) before serving the static file.
 
 
 **<a name='faq_ssl'>Will Rocket-Nginx work if my website uses a SSL certificate (https) ?</a>**
