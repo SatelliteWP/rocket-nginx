@@ -184,7 +184,7 @@ Yes! If your website does not display sensitive data and is a good match for Bac
 
 **<a name='faq_upgrade'>How do I upgrade from version 1 or 2 to version 3?</a>**
 
-We suggest that you save your previous configuration and start over. Take this opportunity to review everything as many things have changed. Officially, version 3.x is not backward-compatible with previous versions. Starging from scratch should not take more than 15 minutes.
+We suggest that you save your previous configuration and start over. Take this opportunity to review everything as many things have changed. Officially, version 3.x is not backward-compatible with previous versions. Starting from scratch should not take more than 15 minutes.
 
 
 **<a name='faq_v3'>What is new in version 3.x?</a>**
