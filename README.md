@@ -51,7 +51,7 @@ Make sure you test that your tasks still run after this change!
 
 ## <a name='installation'>Installation</a>
 
-In order to use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/satellitewp/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
+To use the script, you must include it in your actual configuration.  If your WordPress website is not yet configured to run with Nginx, you can check the [Nginx configuration for WordPress](https://github.com/satellitewp/rocket-nginx/wiki/Nginx-configuration-for-WordPress) documentation.
 
 Only one instance of Rocket-Nginx is needed for all your WordPress websites using WP Rocket. You can generate as many configuration files as needed.
 
