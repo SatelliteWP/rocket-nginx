@@ -141,6 +141,10 @@ In the default profile, create a file in the `conf.d/default/` having the follow
 
 In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `http.*.conf`.
 
+### Preprocess (after all variables to use are set)
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `preprocess.*.conf`.
+
 ### In the CSS section
 
 In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `css.*.conf`.
