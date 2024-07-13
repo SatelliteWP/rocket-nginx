@@ -4,7 +4,7 @@
 ;
 ; Original author: Maxime Jobin
 ; URL: https://www.maximejobin.com
-; Version: 3.0.2
+; Version: 3.1.0
 
 ; Default configuration
 [default]
@@ -107,6 +107,12 @@ media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp"
 css_expiration = "30d"
 js_expiration = "30d"
 media_expiration = "30d"
+
+; Mobile user agents
+; Mobile user agents regex pattern. By design, a tablet is not a mobile.
+; Default value: (?:phone|windows\s+phone|ipod|blackberry|(?:android|bb\d+|meego|silk|googlebot) .+? mobile|palm|windows\s+ce|opera mini|avantgo|mobilesafari|docomo|kaios)
+mobile_ua_devices = "(?:phone|windows\s+phone|ipod|blackberry|(?:android|bb\d+|meego|silk|googlebot) .+? mobile|palm|windows\s+ce|opera mini|avantgo|mobilesafari|docomo|kaios)"
+
 
 ; Multiple sections can be created for multiple websites with different configurations.
 ; It is recommended to use the default values as a base for custom validations. A new configuration
