@@ -141,6 +141,10 @@ In the default profile, create a file in the `conf.d/default/` having the follow
 
 In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `http.*.conf`.
 
+### Preprocess (after all variables to use are set)
+
+In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `preprocess.*.conf`.
+
 ### In the CSS section
 
 In the default profile, create a file in the `conf.d/default/` having the following filename pattern : `css.*.conf`.
@@ -167,6 +171,7 @@ The following header is present no matter if debug is set to true or false:
 This will add the following headers to your response request:
   * **X-Rocket-Nginx-Reason**: If serving static is not set to "HIT", what is the reason for calling WordPress.  If "HIT", what is the file used (URL).
   * **X-Rocket-Nginx-File**: If "HIT", what is the file used (path on disk).
+  * **X-Rocket-Nginx-Device**: What device was used to call the server ("desktop" or "mobile").
 
 
 Reasons for not serving a cached file:
@@ -180,11 +185,11 @@ Reasons for not serving a cached file:
 ## <a name='limitations'>Limitations</a>
 Is Rocket-Nginx perfect? No, it's not! We tried to make it as perfect as possible, but Nginx's scripting language does not offer all possibilities offered by a language like PHP, for instance. Therefore, there are some limitations.
 
-❌**Cache for mobile devices**
+❌**Encoded slugs**
 
-Short answer: Rocket-Nginx won't manage any request if you activate the [Mobile cache feature](https://docs.wp-rocket.me/article/708-mobile-cache).
+Short answer: An encoded slug cannot be served by Rocket-Nginx.
 
-In today's world, we usually use a responsive theme that will adapt to your visitor's screen. Therefore, activating the 'cache for mobile device' to create a separate cache for mobile is not needed. It's useless as the same code will be cached twice. That being said, there are cases where the code is different and you might want to use that option. Unfortunately, knowing if the device is a mobile or not is as simple as you might think. There are so many devices and browsers to handle! The Nginx's scripting language is not powerful enough to achieve the validation correctly. Therefore, if you activate this feature, Rocket-Nginx will let WP Rocket handle the device validation and serve the cached page.
+Due to Nginx's scripting limitations, slugs like 'جزازة العشب' are encoded and the file is stored by WP Rocket as '%d8%ac%d8%b2%d8%a7%d8%b2%d8%a9%20%d8%a7%d9%84%d8%b9%d8%b4%d8%a8' (lowercase). Some browsers, like Google Chrome, will send the request as '%D8%AC%D8%B2%D8%A7%D8%B2%D8%A9%20%D8%A7%D9%84%D8%B9%D8%B4%D8%A8' (uppercase). Using a language like PHP, it would be easy to compare these strings as equal. With Nginx, this is not possible unless a third party module (like Perl or Lua) is needed. To make Rocket-Nginx as generic as possible, it was decided to not add a module dependency. If you want to support encoded slugs and add the missing code, note that version 3.1.0 (and later) offers a new configuration include named "preprocess" to modify the `$rocket_uri_path` variable case (force lowercase).
 
 ❌**WEBP Compatibility**
 
