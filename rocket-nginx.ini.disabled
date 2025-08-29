@@ -4,7 +4,7 @@
 ;
 ; Original author: Maxime Jobin
 ; URL: https://www.maximejobin.com
-; Version: 3.1.0
+; Version: 3.1.1
 
 ; Default configuration
 [default]
@@ -60,8 +60,13 @@ query_string_ignore[] = "adgroupid"
 query_string_ignore[] = "adid"
 query_string_ignore[] = "gbraid"
 query_string_ignore[] = "wbraid"
+query_string_ignore[] = "gadid"
+query_string_ignore[] = "gad_source"
+query_string_ignore[] = "gad_campaignid"
 ; Google DoubleClick
 query_string_ignore[] = "gclsrc"
+; Google Shopping
+query_string_ignore[] = "srsltid"
 ; Adobe Advertising Cloud
 query_string_ignore[] = "ef_id"
 ; Facebook
@@ -69,6 +74,7 @@ query_string_ignore[] = "fb_action_ids"
 query_string_ignore[] = "fb_action_types"
 query_string_ignore[] = "fb_source"
 query_string_ignore[] = "fbclid"
+query_string_ignore[] = "fbadid"
 ; Mailchimp
 query_string_ignore[] = "mc_cid"
 query_string_ignore[] = "mc_eid"
@@ -79,6 +85,8 @@ query_string_ignore[] = "mtm_campaign"
 query_string_ignore[] = "mtm_keyword"
 query_string_ignore[] = "mtm_cid"
 query_string_ignore[] = "mtm_content"
+; Microsoft Advertising
+query_string_ignore[] = "msclkid"
 ; Klavyo
 query_string_ignore[] = "_ke"
 ; Other
