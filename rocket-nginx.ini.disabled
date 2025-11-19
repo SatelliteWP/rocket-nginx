@@ -23,6 +23,7 @@ wp_content_folder = wp-content
 ; Please install Headers-More (Debian/Ubuntu: nginx-extras or at least libnginx-mod-http-headers-more-filter)
 ; and enable this option. It will use more_set_headers instead of add_headers and thus not invalidating
 ; any existing headers (e.g. global HTST headers from your vhost)
+; Default value: false
 use_more_set_headers = false
 
 ; HTML Cache-Control
