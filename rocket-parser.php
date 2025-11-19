@@ -79,6 +79,12 @@ class RocketParser {
 			}
 			$output = str_replace('#!# WP_CONTENT_URI #!#', $wp_content_folder, $output);
 
+			// add_header vs. more_set_headers
+			if (isset($section['use_more_set_headers']) && $section['use_more_set_headers'] == '1') {
+				$output = preg_replace('~(\s*)add_header "([^"]+)" "([^"]+)";~m', '$1more_set_headers "$2: $3";', $output);
+			}
+			// Otherwise we can leave it as is.
+
 			// Cache Control
 			$html_cache_control = '';
 			if (isset($section['html_cache_control']) && !empty($section['html_cache_control'])) {

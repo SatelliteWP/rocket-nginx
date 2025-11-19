@@ -19,6 +19,12 @@ debug = false
 ; Default value: wp-content
 wp_content_folder = wp-content
 
+; more_set_headers
+; Please install Headers-More (Debian/Ubuntu: nginx-extras or at least libnginx-mod-http-headers-more-filter)
+; and enable this option. It will use more_set_headers instead of add_headers and thus not invalidating
+; any existing headers (e.g. global HTST headers from your vhost)
+use_more_set_headers = false
+
 ; HTML Cache-Control
 ; Cache control header to use for html files
 html_cache_control = "no-cache, no-store, must-revalidate"

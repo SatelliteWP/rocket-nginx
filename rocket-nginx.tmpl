@@ -183,12 +183,12 @@ if ($rocket_bypass = 1) {
 # Add header to HTML cached files
 location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	etag on;
-	add_header Vary "Accept-Encoding, Cookie";
-	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-	add_header X-Rocket-Nginx-Reason $rocket_reason;
-	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header X-Rocket-Nginx-Device $rocket_device;
+	add_header "Vary" "Accept-Encoding, Cookie";
+	add_header "Cache-Control" "#!# HTML_CACHE_CONTROL #!#";
+	add_header "X-Rocket-Nginx-Serving-Static" "$rocket_is_bypassed";
+	add_header "X-Rocket-Nginx-Reason" "$rocket_reason";
+	add_header "X-Rocket-Nginx-File" "$rocket_file";
+	add_header "X-Rocket-Nginx-Device" "$rocket_device";
 	
 	# Global includes
 	#!# INCLUDE_GLOBAL #!#
@@ -203,13 +203,13 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	gzip off;
 	types {}
 	default_type text/html;
-	add_header Content-Encoding gzip;
-	add_header Vary "Accept-Encoding, Cookie";
-	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-	add_header X-Rocket-Nginx-Reason $rocket_reason;
-	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header X-Rocket-Nginx-Device $rocket_device;
+	add_header "Content-Encoding" "gzip";
+	add_header "Vary" "Accept-Encoding, Cookie";
+	add_header "Cache-Control" "#!# HTML_CACHE_CONTROL #!#";
+	add_header "X-Rocket-Nginx-Serving-Static" "$rocket_is_bypassed";
+	add_header "X-Rocket-Nginx-Reason" "$rocket_reason";
+	add_header "X-Rocket-Nginx-File" "$rocket_file";
+	add_header "X-Rocket-Nginx-Device" "$rocket_device";
 
 	# Global includes
 	#!# INCLUDE_GLOBAL #!#
@@ -219,10 +219,10 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 }
 
 # Debug header (when file is not cached)
-add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-add_header X-Rocket-Nginx-Reason $rocket_reason;
-add_header X-Rocket-Nginx-File $rocket_file;
-add_header X-Rocket-Nginx-Device $rocket_device;
+add_header "X-Rocket-Nginx-Serving-Static" "$rocket_is_bypassed";
+add_header "X-Rocket-Nginx-Reason" "$rocket_reason";
+add_header "X-Rocket-Nginx-File" "$rocket_file";
+add_header "X-Rocket-Nginx-Device" "$rocket_device";
 
 # Global includes
 #!# INCLUDE_GLOBAL #!#
