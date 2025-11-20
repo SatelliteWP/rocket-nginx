@@ -167,7 +167,7 @@ To:
 `debug = true`
 
 The following header is present no matter if debug is set to true or false:
-  * **X-Rocket-Nginx-Serving-Static**: Did the configuration served the cached file directly : HIT, MISS, BYPASS.
+  * **X-Rocket-Nginx-Serving-Static**: Did the configuration serve the cached file directly : HIT, MISS, BYPASS.
 This will add the following headers to your response request:
   * **X-Rocket-Nginx-Reason**: If serving static is not set to "HIT", what is the reason for calling WordPress.  If "HIT", what is the file used (URL).
   * **X-Rocket-Nginx-File**: If "HIT", what is the file used (path on disk).
