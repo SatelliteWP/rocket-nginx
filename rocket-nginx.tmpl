@@ -75,7 +75,7 @@ if ($rocket_is_https = "1") {
 # Set mobile detection file path
 # This variable contains a file to look for. If it exists, WP Rocket is set to 
 # generate both Desktop and Mobile cache.
-set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
+set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$host/$request_uri/.mobile-active";
 
 # Query strings to ignore
 #!# QUERY_STRING_IGNORE #!#
@@ -112,8 +112,8 @@ set $rocket_file_start "index$rocket_mobile_prefix$rocket_https_prefix";
 # Pre-process includes
 #!# INCLUDE_PREPROCESS #!#
 
-set $rocket_pre_url "/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$rocket_uri_path/$rocket_args/";
-set $rocket_pre_file "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$rocket_uri_path/$rocket_args/";
+set $rocket_pre_url "/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$host/$rocket_uri_path/$rocket_args/";
+set $rocket_pre_file "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$host/$rocket_uri_path/$rocket_args/";
 
 # Standard cache file format
 set $rocket_url "$rocket_pre_url$rocket_file_start$rocket_dynamic.html";
