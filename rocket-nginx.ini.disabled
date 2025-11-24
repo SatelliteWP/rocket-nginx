@@ -23,6 +23,13 @@ wp_content_folder = wp-content
 ; Cache control header to use for html files
 html_cache_control = "no-cache, no-store, must-revalidate"
 
+; Use brotli precompressed files
+; Leave empty to not use brotli
+; Otherwise, specify your file suffix for pre-compressed brotli versions
+; such as ".br".
+; Default: (empty)
+brotli_suffix = ""
+
 ; Cookies
 ; Cookies can be specified to avoid serving a cached file. Some plugins may need to bypass the use of a
 ; file that was previously cached. List all cookies that must invalidate the use of cache.

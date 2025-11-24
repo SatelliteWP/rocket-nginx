@@ -79,12 +79,28 @@ class RocketParser {
 			}
 			$output = str_replace('#!# WP_CONTENT_URI #!#', $wp_content_folder, $output);
 
+			// add_header vs. more_set_headers
+			if (isset($section['use_more_set_headers']) && $section['use_more_set_headers'] == '1') {
+				$output = preg_replace('~(\s*)add_header "([^"]+)" "([^"]+)";~m', '$1more_set_headers "$2: $3";', $output);
+			}
+			// Otherwise we can leave it as is.
+
 			// Cache Control
 			$html_cache_control = '';
 			if (isset($section['html_cache_control']) && !empty($section['html_cache_control'])) {
 				$html_cache_control = $section['html_cache_control'];
 			}
 			$output = str_replace('#!# HTML_CACHE_CONTROL #!#', $html_cache_control, $output);
+
+			// Brotli support
+			$brotli_suffix = '';
+			if (isset($section['brotli_suffix']) && !empty($section['brotli_suffix'])) {
+				$brotli_suffix = $section['brotli_suffix'];
+			}
+			$output = str_replace('#!# BROTLI_SUFFIX #!#', $brotli_suffix, $output);
+
+			// We should also handle the possibly unknown directives (as brotli is not in nginx core yet)
+			$output = str_replace('#!# BROTLI_OFF #!#', (empty($brotli_suffix) ? '' : 'brotli off;'), $output);
 
 			// Cookies
 			$cookies = '';
