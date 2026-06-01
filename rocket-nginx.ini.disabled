@@ -4,7 +4,7 @@
 ;
 ; Original author: Maxime Jobin
 ; URL: https://www.maximejobin.com
-; Version: 3.1.1
+; Version: 3.1.2
 
 ; Default configuration
 [default]
@@ -111,10 +111,10 @@ media_extensions = "ico|gif|jpe?g|png|svg|eot|otf|woff|woff2|ttf|ogg|webp"
 
 ; Cache expiration delay
 ; Cache expiration delay for CSS, JS and media files
-; Default value: 30d
-css_expiration = "30d"
-js_expiration = "30d"
-media_expiration = "30d"
+; Default value: 90d
+css_expiration = "90d"
+js_expiration = "90d"
+media_expiration = "90d"
 
 ; Mobile user agents
 ; Mobile user agents regex pattern. By design, a tablet is not a mobile.
