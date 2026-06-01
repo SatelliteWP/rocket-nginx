@@ -199,6 +199,11 @@ WP Rocket is able to create a specific cache if you used a tool to convert your 
 
 ## <a name='faq'>FAQ</a>
 
+**<a name='faq_headers_lost'>I lost headers (add_header) after I started using Rocket-Nginx. Is this a bug?</a>**
+
+No! It's a limitation of how header are managed in Nginx. That is why a "hook" principle was added. In short, you should add your headers in a separate file and include this file in your configuration. If the file exists somewhere else on your system, you can create a symbolic link to make things work. Review the [Configuration](#configuration) section to add your headers at the right place!
+
+
 **<a name='faq_bfcache'>Is Rocket-Nginx compatible with BF Cache (Back/forward cache)?</a>**
 
 Yes! If your website does not display sensitive data and is a good match for Back/forward caching, you must must edit your Rocket-Nginx configuration by following the [BF Cache discussion](https://github.com/SatelliteWP/rocket-nginx/issues/197#issuecomment-1693584964) in the issues.
