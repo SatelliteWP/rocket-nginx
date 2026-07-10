@@ -75,7 +75,7 @@ if ($rocket_is_https = "1") {
 # Set mobile detection file path
 # This variable contains a file to look for. If it exists, WP Rocket is set to 
 # generate both Desktop and Mobile cache.
-set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$request_uri/.mobile-active";
+set $rocket_mobile_detection "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$host/$request_uri/.mobile-active";
 
 # Query strings to ignore
 #!# QUERY_STRING_IGNORE #!#
@@ -112,8 +112,8 @@ set $rocket_file_start "index$rocket_mobile_prefix$rocket_https_prefix";
 # Pre-process includes
 #!# INCLUDE_PREPROCESS #!#
 
-set $rocket_pre_url "/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$rocket_uri_path/$rocket_args/";
-set $rocket_pre_file "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$http_host/$rocket_uri_path/$rocket_args/";
+set $rocket_pre_url "/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$host/$rocket_uri_path/$rocket_args/";
+set $rocket_pre_file "$document_root/#!# WP_CONTENT_URI #!#/cache/wp-rocket/$host/$rocket_uri_path/$rocket_args/";
 
 # Standard cache file format
 set $rocket_url "$rocket_pre_url$rocket_file_start$rocket_dynamic.html";
@@ -183,12 +183,12 @@ if ($rocket_bypass = 1) {
 # Add header to HTML cached files
 location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	etag on;
-	add_header Vary "Accept-Encoding, Cookie";
-	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-	add_header X-Rocket-Nginx-Reason $rocket_reason;
-	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header X-Rocket-Nginx-Device $rocket_device;
+	add_header "Vary" "Accept-Encoding, Cookie";
+	add_header "Cache-Control" "#!# HTML_CACHE_CONTROL #!#";
+	add_header "X-Rocket-Nginx-Serving-Static" "$rocket_is_bypassed";
+	add_header "X-Rocket-Nginx-Reason" "$rocket_reason";
+	add_header "X-Rocket-Nginx-File" "$rocket_file";
+	add_header "X-Rocket-Nginx-Device" "$rocket_device";
 	
 	# Global includes
 	#!# INCLUDE_GLOBAL #!#
@@ -203,13 +203,13 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	gzip off;
 	types {}
 	default_type text/html;
-	add_header Content-Encoding gzip;
-	add_header Vary "Accept-Encoding, Cookie";
-	add_header Cache-Control "#!# HTML_CACHE_CONTROL #!#";
-	add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-	add_header X-Rocket-Nginx-Reason $rocket_reason;
-	add_header X-Rocket-Nginx-File $rocket_file;
-	add_header X-Rocket-Nginx-Device $rocket_device;
+	add_header "Content-Encoding" "gzip";
+	add_header "Vary" "Accept-Encoding, Cookie";
+	add_header "Cache-Control" "#!# HTML_CACHE_CONTROL #!#";
+	add_header "X-Rocket-Nginx-Serving-Static" "$rocket_is_bypassed";
+	add_header "X-Rocket-Nginx-Reason" "$rocket_reason";
+	add_header "X-Rocket-Nginx-File" "$rocket_file";
+	add_header "X-Rocket-Nginx-Device" "$rocket_device";
 
 	# Global includes
 	#!# INCLUDE_GLOBAL #!#
@@ -219,10 +219,10 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 }
 
 # Debug header (when file is not cached)
-add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
-add_header X-Rocket-Nginx-Reason $rocket_reason;
-add_header X-Rocket-Nginx-File $rocket_file;
-add_header X-Rocket-Nginx-Device $rocket_device;
+add_header "X-Rocket-Nginx-Serving-Static" "$rocket_is_bypassed";
+add_header "X-Rocket-Nginx-Reason" "$rocket_reason";
+add_header "X-Rocket-Nginx-File" "$rocket_file";
+add_header "X-Rocket-Nginx-Device" "$rocket_device";
 
 # Global includes
 #!# INCLUDE_GLOBAL #!#
