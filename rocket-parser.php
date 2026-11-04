@@ -11,7 +11,7 @@
 * Original author: Maxime Jobin
 * URL: https://www.maximejobin.com
 *
-* Version 3.1.2
+* Version 3.1.3
 *
 **************************************************************************************************/
 
@@ -30,7 +30,7 @@ class RocketParser {
 		foreach($data as $namespace => $properties) {
 			$parts = explode(':', $namespace);
 			$name = trim($parts[0]);
-			$extends = isset($parts[1]) ? trim($parts[1]) : null;
+			$extends = isset($parts[1]) ? trim($parts[1]) : '';
 			
 			// create namespace if necessary
 			if (!isset($config[$name])) {
