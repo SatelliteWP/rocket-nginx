@@ -5,7 +5,7 @@ Rocket-Nginx is a [Nginx](https://nginx.org) configuration for the [WordPress](h
 
 **You might ask yourself: "How good is this configuration?".**
 
-Let's just say that WP Rocket themselves use it on their website to make it even faster! 
+Let's just say that WP Rocket themselves use it on their website to make it even faster!
 
 This project is sponsored by SatelliteWP, a [WordPress maintenance service](https://www.satellitewp.com/en) located near Montreal, Canada. Our service is offered in both English and French. SatelliteWP fait de l'[entretien de sites WordPress](https://www.satellitewp.com/?utm_source=rocket-nginx).
 
@@ -25,7 +25,7 @@ This project is sponsored by SatelliteWP, a [WordPress maintenance service](http
 
 ## <a name='contributors'>Contributors</a>
 
-The configuration was created by [Maxime Jobin](https://www.maximejobin.com) ([@maximejobin](https://github.com/maximejobin)) and is now maintained by [SatelliteWP](https://www.satellitewp.com/en?utm_source=rocket-nginx). 
+The configuration was created by [Maxime Jobin](https://www.maximejobin.com) ([@maximejobin](https://github.com/maximejobin)) and is now maintained by [SatelliteWP](https://www.satellitewp.com/en?utm_source=rocket-nginx).
 
 ## <a name='before'>Before You Start</a>
 As the configuration's goal is to serve cached files directly without having to execute any PHP from WordPress, this may cause your scheduled jobs to not be called.  As you may already know, WP-Cron jobs are not real cron jobs and are executed only when you have visits on your site.
@@ -77,10 +77,10 @@ Then, in your Nginx configuration file, you must [include](https://nginx.org/en/
 ```
 server {
   ...
-  
+
   # Rocket-Nginx configuration
   include rocket-nginx/conf.d/default.conf;
-  
+
   ...
 }
 ```
@@ -92,6 +92,12 @@ Once your test is done, you must reload your configuration.
 `service nginx reload`
 
 That's it.
+
+### WordPress-managed configuration
+
+Server operators who prefer the configuration to follow the active WP Rocket settings can use [WP Rocket Nginx](https://github.com/dvershinin/wp-rocket-nginx), an unofficial WordPress plugin derived from Rocket-Nginx 3.1.2.
+
+The plugin generates the Nginx include atomically when relevant settings change. Nginx validation and reload remain explicit server operations. The project retains Rocket-Nginx attribution and its MIT license notice.
 
 ## <a name='configuration'>Configuration</a>
 There is no configuration to do.  It will work out of the box.  But, you can edit a couple of things...
@@ -120,7 +126,7 @@ Finally, **each time** you generate (or regenerate) the configurations files, yo
 1. Test it to make sure it did not produce any error:
 
     `nginx -t`
-    
+
 1. Reload the configuration:
 
     `service nginx reload`
